@@ -219,11 +219,11 @@ q.to.rect <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #' @examples
 #' q1 <- c("A1a2", "A1a2", "A1a1")
 #' q2 <- c("A1a4", "B1a2", "A1a3")
-#' is.adjacent(q1, q2)
+#' touches(q1, q2)
 #'
 #' @export
 #------------------------------------------------------------------------------
-is.adjacent <- function(q1, q2) {
+touches <- function(q1, q2) {
 	stopifnot(length(q1) == length(q2))
 	r1 <- as.data.frame(q.to.rect(q1))
 	r2 <- as.data.frame(q.to.rect(q2))
