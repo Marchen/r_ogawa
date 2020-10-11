@@ -49,7 +49,7 @@ is.adjacent(q1, q2)
 
 # Check if the quadrats are in the specified region.
 is.in("A1a1", 0, 100, 0, 200)
-is.in("A1a1", q.from="B01a1", q.to = "B3c2")
+is.in("A1a1", q.from = "B01a1", q.to = "B3c2")
 
 
 #------------------------------------------------------------------------------
