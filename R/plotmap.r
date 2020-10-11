@@ -161,9 +161,9 @@ fill.q <- function(Q, ...) {
 #' @export
 #------------------------------------------------------------------------------
 create.quadrat.map <- function(
-	Q, add.sq.legend = TRUE, draws.1.2ha = TRUE, ...
+	Q, adds.sq.legend = TRUE, draws.1.2ha = TRUE, ...
 ) {
 	x <- create.ogawa.plot()
 	fill.q(Q, ...)
-	add.grid(x, add.sq.legend, draws.1.2ha)
+	add.grid(x, adds.sq.legend, draws.1.2ha)
 }
