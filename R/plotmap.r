@@ -28,7 +28,7 @@ create.ogawa.plot <- function(xmin = 0, xmax = 300, ymin = 0, ymax = 200) {
 
 
 #------------------------------------------------------------------------------
-# Create ogawa.plot object.
+#  Create ogawa.plot object.
 #------------------------------------------------------------------------------
 create.object <- function(xmin, xmax, ymin, ymax) {
 	mod5 <- function(x) x - (x %% 5)
@@ -68,7 +68,7 @@ add.grid <- function(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE) {
 
 
 #------------------------------------------------------------------------------
-#	Draw grid lines.
+#  Draw grid lines.
 #------------------------------------------------------------------------------
 draw.grid <- function(xmin, xmax, ymin, ymax) {
 	rect(xmin, ymin, xmax, ymax, lwd = 2)
@@ -84,7 +84,7 @@ draw.grid <- function(xmin, xmax, ymin, ymax) {
 
 
 #------------------------------------------------------------------------------
-#	Draw labels.
+#  Draw labels.
 #------------------------------------------------------------------------------
 draw.labels <- function(xmin, xmax, ymin, ymax) {
 	# X-axis label (small).
@@ -107,7 +107,7 @@ draw.labels <- function(xmin, xmax, ymin, ymax) {
 
 
 #------------------------------------------------------------------------------
-#	Draw 1.2ha region.
+#  Draw 1.2ha region.
 #------------------------------------------------------------------------------
 draw.1.2ha <- function(xmin, xmax, ymin, ymax) {
 	rect(
@@ -117,7 +117,7 @@ draw.1.2ha <- function(xmin, xmax, ymin, ymax) {
 
 
 #------------------------------------------------------------------------------
-#	Draw sub-quadrat region.
+#  Draw sub-quadrat region.
 #------------------------------------------------------------------------------
 draw.sq.legend <- function(xmin, xmax, ymin, ymax) {
 	for (i in 1:4) {
