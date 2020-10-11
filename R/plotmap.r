@@ -48,9 +48,12 @@ create.object <- function(xmin, xmax, ymin, ymax) {
 #'
 #' @param x an \code{ogawa.plot} object.
 #' @param adds.sq.legend if TRUE, adds an legend for sub-quadrats.
-#' @param draws.1.2.ha if TRUE, draws the 1.2ha core plot region.
+#' @param draws.1.2ha if TRUE, draws the 1.2ha core plot region.
 #'
 #' @export
+#' @importFrom graphics rect
+#' @importFrom graphics segments
+#' @importFrom graphics text
 #------------------------------------------------------------------------------
 add.grid <- function(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE) {
 	do.call(draw.grid, x)
@@ -153,7 +156,7 @@ fill.q <- function(Q, ...) {
 #' quadrat codes to be filled.
 #' @param adds.sq.legend
 #' if TRUE, adds an legend for sub-quadrats.
-#' @param draws.1.2.ha
+#' @param draws.1.2ha
 #' if TRUE, draws the 1.2ha core plot region.
 #' @param ...
 #' graphic parameters passed to \code{\link[graphics]{rect}} to draw quadrats.
