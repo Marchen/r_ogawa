@@ -4,16 +4,16 @@
 \alias{create.quadrat.map}
 \title{Create a map of ogawa forest plot with colored quadrats}
 \usage{
-create.quadrat.map(Q, add.sq.legend = TRUE, draws.1.2ha = TRUE, ...)
+create.quadrat.map(Q, adds.sq.legend = TRUE, draws.1.2ha = TRUE, ...)
 }
 \arguments{
 \item{Q}{quadrat codes to be filled.}
 
-\item{...}{graphic parameters passed to \code{\link[graphics]{rect}} to draw quadrats.}
-
 \item{adds.sq.legend}{if TRUE, adds an legend for sub-quadrats.}
 
-\item{draws.1.2.ha}{if TRUE, draws the 1.2ha core plot region.}
+\item{draws.1.2ha}{if TRUE, draws the 1.2ha core plot region.}
+
+\item{...}{graphic parameters passed to \code{\link[graphics]{rect}} to draw quadrats.}
 }
 \description{
 Create a map of ogawa forest plot with colored quadrats

@@ -11,7 +11,7 @@ add.grid(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE)
 
 \item{adds.sq.legend}{if TRUE, adds an legend for sub-quadrats.}
 
-\item{draws.1.2.ha}{if TRUE, draws the 1.2ha core plot region.}
+\item{draws.1.2ha}{if TRUE, draws the 1.2ha core plot region.}
 }
 \description{
 A low level graphic function draws grid lines for the ogawa plot map.
