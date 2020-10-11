@@ -119,7 +119,7 @@ q.to.x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 	x <- (
 		(as.integer(sapply(Q1, charToRaw)) - 65) * 20
 		+ ifelse(SQ1 %in% c("a", "c"), 0, 1) * 10
-		+ sapply(SQ2, switch, "1" = 1, "2" = 2, "3" = 1, "4" = 2, "NA" = 0) * 5
+		+ ifelse(!is.na(SQ2), (SQ2 - 1) %% 2 + 1, 2) * 5
 	)
 	return(x)
 }
@@ -150,10 +150,9 @@ q.to.y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 	if (any(is.na(c(Q1, Q2, SQ1)))) {
 		stop("Needs specifying Q or all of Q1, Q2, SQ1 and SQ2")
 	}
-	y <- (
-		200 - (Q2 - 1) * 20
-		- sapply(SQ1, switch, a = 0, b = 0, c = 1, d = 1) * 10
-	)
-	y <- y - (floor((SQ2 - 1) / 2) * 5)
+	sq1 <- c(a = 0, b = 0, c = 1, d = 1)
+	y <- 200 - (Q2 - 1) * 20 - sq1[SQ1] * 10
+	y <- y - ifelse(is.na(SQ2), 0, (floor((SQ2 - 1) / 2) * 5))
+	names(y) <- NULL
 	return(y)
 }
