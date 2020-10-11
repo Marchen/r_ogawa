@@ -94,6 +94,8 @@ construct.q <- function(Q1, Q2, SQ1, SQ2) {
 #------------------------------------------------------------------------------
 #' Convert quadrat codes to x coordinates
 #'
+#' Convert quadrat codes to x coordinates of top-right of the quadrats.
+#'
 #' @param Q vector of quadrat code(s).
 #' @param Q1 vector of capital alphabet part of quadrat code.
 #' @param Q2 vector of first numerical part of quadrat code.
@@ -127,6 +129,8 @@ q.to.x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 
 #------------------------------------------------------------------------------
 #' Convert quadrat codes to y coordinates
+#'
+#' Convert quadrat codes to y coordinates of top-right of the quadrats.
 #'
 #' @param Q vector of quadrat code(s).
 #' @param Q1 vector of capital alphabet part of quadrat code.
