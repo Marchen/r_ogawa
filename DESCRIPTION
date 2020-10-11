@@ -1,7 +1,7 @@
 Package: ogawa
 Type: Package
 Title: Utilities for the Ogawa Forest Plot
-Version: 0.1.0.9999
+Version: 0.0.0.9999
 Author: Michio Oguro
 Maintainer: TMichio Oguro <mog@ffpri.affrc.go.jp>
 Description: Many utility functions for management of the Ogawa Forest Plot data.
