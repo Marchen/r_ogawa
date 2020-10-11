@@ -206,3 +206,32 @@ q.to.rect <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 	y2 <- y1 - ifelse(is.na(SQ2), 10, 5)
 	return(list(x1 = x1, x2 = x2, y1 = y1, y2 = y2))
 }
+
+
+#------------------------------------------------------------------------------
+#' Check if the plot pairs are adjacent
+#'
+#' @param q1 quadrat codes, should have equal length with q2.
+#' @param q2 quadrat codes, should have equal length with q1.
+#'
+#' @return Returns TRUE if the two plots are adjacent and FALSE if are not.
+#'
+#' @examples
+#' q1 <- c("A1a2", "A1a2", "A1a1")
+#' q2 <- c("A1a4", "B1a2", "A1a3")
+#' is.adjacent(q1, q2)
+#'
+#' @export
+#------------------------------------------------------------------------------
+is.adjacent <- function(q1, q2) {
+	stopifnot(length(q1) == length(q2))
+	r1 <- as.data.frame(q.to.rect(q1))
+	r2 <- as.data.frame(q.to.rect(q2))
+	x1 <- lapply(1:nrow(r1), function(i) c(r1$x1[i], r1$x2[i]))
+	x2 <- lapply(1:nrow(r2), function(i) c(r2$x1[i], r2$x2[i]))
+	y1 <- lapply(1:nrow(r1), function(i) c(r1$y1[i], r1$y2[i]))
+	y2 <- lapply(1:nrow(r2), function(i) c(r2$y1[i], r2$y2[i]))
+	intersect.x <- mapply(function(x, y) length(intersect(x, y)) > 0, x1, x2)
+	intersect.y <- mapply(function(x, y) length(intersect(x, y)) > 0, y1, y2)
+	return(intersect.x & intersect.y)
+}
