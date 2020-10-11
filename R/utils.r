@@ -16,15 +16,12 @@
 #' @export
 #------------------------------------------------------------------------------
 is.core <- function(Q, invalid = NA) {
-	fn <- function(Q) {
-		if (is.na(Q) | Q == "") {
-			return(NA)
-		}
-		Q1 <- toupper(substr(Q, 1, 1))
-		Q2 <- as.integer(substr(Q, 2, 3))
-		return(Q1 %in% LETTERS[7:11] & Q2 >= 2 & Q2 <= 7)
-	}
-	return(sapply(Q, fn))
+	x <- q.to.elements(Q)
+	result <- ifelse(
+		!is.valid.q(Q), invalid,
+		x$Q1 %in% LETTERS[7:11] & x$Q2 >= 2 & x$Q2 <= 7
+	)
+	return(result)
 }
 
 
