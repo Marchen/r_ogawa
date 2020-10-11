@@ -9,7 +9,7 @@ plot data.
 # Install the 'devtools' package if you don't have it.
 install.packages("devtools")
 
-# Install the package
+# Install the package.
 devtools::install_github("Marchen/r_ogawa")
 ```
 
@@ -42,10 +42,10 @@ q.to.x(c("A1a1", "G2a1"))
 q.to.y(c("A1a1", "G2a1"))
 q.to.rect(c("A1a1", "G2a1"))
 
-# Check if the plot pairs are adjacent.
+# Check if the plot pairs touch each other.
 q1 <- c("A1a2", "A1a2", "A1a1")
 q2 <- c("A1a4", "B1a2", "A1a3")
-is.adjacent(q1, q2)
+touches(q1, q2)
 
 # Check if the quadrats are in the specified region.
 is.in("A1a1", 0, 100, 0, 200)

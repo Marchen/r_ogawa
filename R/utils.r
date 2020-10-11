@@ -209,12 +209,12 @@ q.to.rect <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 
 
 #------------------------------------------------------------------------------
-#' Check if the plot pairs are adjacent
+#' Check if the plot pairs touch each other
 #'
 #' @param q1 quadrat codes, should have equal length with q2.
 #' @param q2 quadrat codes, should have equal length with q1.
 #'
-#' @return Returns TRUE if the two plots are adjacent and FALSE if are not.
+#' @return Returns TRUE if the two plots touch each other and FALSE if are not.
 #'
 #' @examples
 #' q1 <- c("A1a2", "A1a2", "A1a1")
