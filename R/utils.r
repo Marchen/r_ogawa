@@ -69,14 +69,14 @@ standardize.q <- function(Q) {
 #'
 #' @param Q vector of quadrat code(s).
 #'
-#' @return a list of quadrat code elements.
+#' @return
+#' a list of quadrat code elements.
+#' For invalit quadrat codes, NAs are returned.
 #'
 #' @export
 #------------------------------------------------------------------------------
 q.to.elements <- function(Q) {
-	if (any(!is.valid.q(Q))) {
-		stop(sprintf("Wrong Q format: %s", Q[is.valid.q(Q)]))
-	}
+	Q[!is.valid.q(Q)] <- NA
 	q.regexp <- "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10)([a-d]{1})([1-4]{0,1})$"
 	Q1 <- gsub(q.regexp, "\\1", Q)
 	Q2 <- as.integer(gsub(q.regexp, "\\2", Q))
