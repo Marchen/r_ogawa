@@ -60,4 +60,3 @@ add.grid(x)
 create.quadrat.map("G3a1", col = "pink")
 
 ```
-
