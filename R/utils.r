@@ -1,4 +1,10 @@
 #------------------------------------------------------------------------------
+# A regular expression representing quadrat codes.
+#------------------------------------------------------------------------------
+Q_REGEXP = "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10)([a-d]{1})([1-4]{0,1})$"
+
+
+#------------------------------------------------------------------------------
 #' Is core plot?
 #'
 #' Determine whether the quadrat is in the 1.2ha  plot.
@@ -36,8 +42,7 @@ is.core <- function(Q, invalid = NA) {
 #' @export
 #------------------------------------------------------------------------------
 is.valid.q <- function(Q) {
-	q.regexp <- "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10)([a-d]{1})([1-4]{0,1})$"
-	is.valid <- grepl(q.regexp, Q)
+	is.valid <- grepl(Q_REGEXP, Q)
 	return(is.valid)
 }
 
@@ -74,11 +79,10 @@ standardize.q <- function(Q) {
 #------------------------------------------------------------------------------
 q.to.elements <- function(Q) {
 	Q[!is.valid.q(Q)] <- NA
-	q.regexp <- "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10)([a-d]{1})([1-4]{0,1})$"
-	Q1 <- gsub(q.regexp, "\\1", Q)
-	Q2 <- as.integer(gsub(q.regexp, "\\2", Q))
-	SQ1 <- gsub(q.regexp, "\\3", Q)
-	SQ2 <- as.integer(gsub(q.regexp, "\\4", Q))
+	Q1 <- gsub(Q_REGEXP, "\\1", Q)
+	Q2 <- as.integer(gsub(Q_REGEXP, "\\2", Q))
+	SQ1 <- gsub(Q_REGEXP, "\\3", Q)
+	SQ2 <- as.integer(gsub(Q_REGEXP, "\\4", Q))
 	return(list(Q1 = Q1, Q2 = Q2, SQ1 = SQ1, SQ2 = SQ2))
 }
 
