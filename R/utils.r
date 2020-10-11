@@ -235,3 +235,47 @@ is.adjacent <- function(q1, q2) {
 	intersect.y <- mapply(function(x, y) length(intersect(x, y)) > 0, y1, y2)
 	return(intersect.x & intersect.y)
 }
+
+
+#------------------------------------------------------------------------------
+#' Check if quadrats are in a specified region
+#'
+#' Check if quadrats are in a specified region.
+#' The region can be specified by using minimum and maximum coordinates or two
+#' quadrats indicating starting from and to.
+#'
+#' @param Q quadrate codes.
+#' @param xmin minimum x-coordinate of the region.
+#' @param xmax maximum x-coordinate of the region.
+#' @param ymin minimum y-coordinate of the region.
+#' @param ymax maximum y-coordinate of the region.
+#' @param q.from a quadrat code specifying the region begins.
+#' @param q.to a quadrat code specifying the region ends.
+#'
+#' @return a logical vector indicating if the quadrats are in the region.
+#'
+#' @examples
+#' is.in("A1a1", 0, 100, 0, 200)
+#' is.in("A1a1", q.from="B1a1", q.to = "B3c2")
+#'
+#' @export
+#------------------------------------------------------------------------------
+is.in <- function(
+	Q, xmin = NA, xmax = NA, ymin = NA, ymax = NA, q.from = NA, q.to = NA
+) {
+	if (!is.na(q.from) & !is.na(q.to)) {
+		if (length(q.from) != 1 | length(q.to) != 1) {
+			stop("Length of 'q.from' and 'q.to' should be one.")
+		}
+		r1 <- q.to.rect(q.from)
+		r2 <- q.to.rect(q.to)
+		xmin <- min(r1$x2, r2$x2)
+		xmax <- max(r1$x1, r2$x1)
+		ymin <- min(r1$y2, r2$y2)
+		ymax <- max(r1$y1, r2$y1)
+	}
+	r <- q.to.rect(Q)
+	x <- xmin <= r$x1 & xmin <= r$x2 & r$x1 <= xmax & r$x2 <= xmax
+	y <- ymin <= r$y1 & ymin <= r$y2 & r$y1 <= ymax & r$y2 <= ymax
+	return(x & y)
+}
