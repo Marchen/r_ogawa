@@ -29,6 +29,23 @@ is.core <- function(Q, invalid = NA) {
 
 
 #------------------------------------------------------------------------------
+#' Validate quadrat codes
+#'
+#' @param Q quadrat code(s).
+#'
+#' @return
+#' returns TRUE for quadrat codes in valid format and FALSE for invalid format.
+#'
+#' @export
+#------------------------------------------------------------------------------
+is.valid.q <- function(Q) {
+	q.regexp <- "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10)([a-d]{1})([1-4]{0,1})$"
+	is.valid <- grepl(q.regexp, Q)
+	return(is.valid)
+}
+
+
+#------------------------------------------------------------------------------
 #' Standardize quadrat codes
 #'
 #' Convert quadrat code(s) in the A1a1 format to the A01a1 format.
@@ -57,11 +74,10 @@ standardize.q <- function(Q) {
 #' @export
 #------------------------------------------------------------------------------
 q.to.elements <- function(Q) {
-	q.regexp <- "^([A-Z]{1})([0-9]{1,2})([a-d]{1})([1-4]{0,1})$"
-	is.wrong.format <- !grepl(q.regexp, Q)
-	if (any(is.wrong.format)) {
-		stop(sprintf("Wrong Q format: %s", Q[is.wrong.format]))
+	if (any(!is.valid.q(Q))) {
+		stop(sprintf("Wrong Q format: %s", Q[is.valid.q(Q)]))
 	}
+	q.regexp <- "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10)([a-d]{1})([1-4]{0,1})$"
 	Q1 <- gsub(q.regexp, "\\1", Q)
 	Q2 <- as.integer(gsub(q.regexp, "\\2", Q))
 	SQ1 <- gsub(q.regexp, "\\3", Q)
