@@ -34,13 +34,18 @@ q.to.elements(c("A1a1", "G2a1"))
 # Construct standardized quadrat codes.
 construct.q("A", 1, "a", 1)
 
-# Check the quadrats are in core plot or not?
+# Check the quadrats are in the 1.2ha core plot.
 is.core(c("A1a1", "G2a1"))
 
 # Convert quadrat codes to coordinates.
 q.to.x(c("A1a1", "G2a1"))
 q.to.y(c("A1a1", "G2a1"))
 q.to.rect(c("A1a1", "G2a1"))
+
+# Check if the plot pairs are adjacent.
+q1 <- c("A1a2", "A1a2", "A1a1")
+q2 <- c("A1a4", "B1a2", "A1a3")
+is.adjacent(q1, q2)
 
 
 #==============================================================================
