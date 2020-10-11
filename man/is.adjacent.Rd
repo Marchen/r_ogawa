@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.r
 \name{is.adjacent}
 \alias{is.adjacent}
-\title{Check if the two plots are adjacent}
+\title{Check if the plot pairs are adjacent}
 \usage{
 is.adjacent(q1, q2)
 }
@@ -15,11 +15,11 @@ is.adjacent(q1, q2)
 Returns TRUE if the two plots are adjacent and FALSE if are not.
 }
 \description{
-Check if the two plots are adjacent
+Check if the plot pairs are adjacent
 }
 \examples{
-q1 <- c("A1a2", "A1a2")
-q2 <- c("A1a4", "B1a2")
+q1 <- c("A1a2", "A1a2", "A1a1")
+q2 <- c("A1a4", "B1a2", "A1a3")
 is.adjacent(q1, q2)
 
 }
