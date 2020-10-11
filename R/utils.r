@@ -114,7 +114,7 @@ q.to.x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 		SQ2 <- params$SQ2
 	}
 	if (any(is.na(c(Q1, Q2, SQ1)))) {
-		stop("Needs specifying Q or all of Q1, Q2, SQ1 and SQ2")
+		stop("Needs specifying Q or all of Q1, Q2, SQ1 (and SQ2)")
 	}
 	x <- (
 		(as.integer(sapply(Q1, charToRaw)) - 65) * 20
