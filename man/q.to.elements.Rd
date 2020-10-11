@@ -11,6 +11,7 @@ q.to.elements(Q)
 }
 \value{
 a list of quadrat code elements.
+For invalit quadrat codes, NAs are returned.
 }
 \description{
 Split quadrat codes into elements
