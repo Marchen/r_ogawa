@@ -160,3 +160,32 @@ q.to.y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 	names(y) <- NULL
 	return(y)
 }
+
+
+#------------------------------------------------------------------------------
+#' Convert quadrat code to coordinates of rectangular for the quadrat
+#'
+#' @param Q vector of quadrat code(s).
+#' @param Q1 vector of capital alphabet part of quadrat code.
+#' @param Q2 vector of first numerical part of quadrat code.
+#' @param SQ1 vector of lower alphabet part of quadrat code.
+#' @param SQ2 vector of second numerical part of quadrat code.
+#'
+#' @return list of coordinates (x1, x2, y1, y2) for the rectangular.
+#'
+#' @export
+#------------------------------------------------------------------------------
+q.to.rect <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+	if (!missing(Q)) {
+		params <- q.to.elements(Q)
+		Q1 <- params$Q1
+		Q2 <- params$Q2
+		SQ1 <- params$SQ1
+		SQ2 <- params$SQ2
+	}
+	x1 <- q.to.x(Q1 = Q1, Q2 = Q2, SQ1 = SQ1, SQ2 = SQ2)
+	y1 <- q.to.y(Q1 = Q1, Q2 = Q2, SQ1 = SQ1, SQ2 = SQ2)
+	x2 <- x1 - ifelse(is.na(SQ2), 10, 5)
+	y2 <- y1 - ifelse(is.na(SQ2), 10, 5)
+	return(list(x1 = x1, x2 = x2, y1 = y1, y2 = y2))
+}
