@@ -31,6 +31,6 @@ quadrats indicating starting from and to.
 }
 \examples{
 is.in("A1a1", 0, 100, 0, 200)
-is.in("A1a1", q.from="B1a1", q.to = "B3c2")
+is.in("A1a1", q.from = "B1a1", q.to = "B3c2")
 
 }
