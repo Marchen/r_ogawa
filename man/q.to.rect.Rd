@@ -4,7 +4,7 @@
 \alias{q.to.rect}
 \title{Convert quadrat code to coordinates of rectangular for the quadrat}
 \usage{
-q.to.rect(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA)
+q.to.rect(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA)
 }
 \arguments{
 \item{Q}{vector of quadrat code(s).}
