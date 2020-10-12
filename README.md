@@ -40,6 +40,7 @@ is.core(c("A1a1", "G2a1"))
 # Convert quadrat codes to coordinates.
 q.to.x(c("A1a1", "G2a1"))
 q.to.y(c("A1a1", "G2a1"))
+q.to.point(c("A1a1", "G2a1"), pos = "center")
 q.to.rect(c("A1a1", "G2a1"))
 
 # Check if the plot pairs touch each other.
