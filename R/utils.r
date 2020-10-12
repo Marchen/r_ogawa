@@ -178,6 +178,49 @@ q.to.y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 	return(y)
 }
 
+#------------------------------------------------------------------------------
+#' Convert quadrat codes to coordinates of points
+#'
+#' @param Q
+#' vector of quadrat code(s). When Q is specified, Q1, Q2, SQ1 and Q2 are
+#' ignored.
+#' @param Q1
+#' vector of capital alphabet part of quadrat code.
+#' @param Q2
+#' vector of first numerical part of quadrat code.
+#' @param SQ1
+#' vector of lower alphabet part of quadrat code.
+#' @param SQ2
+#' vector of second numerical part of quadrat code.
+#' @param pos
+#' position of the quadrat, can be one of "center", "topleft", "topright",
+#' "bottomleft", "bottomright".
+#'
+#' @return list of x and y coordinates of the point(s).
+#'
+#' @export
+#------------------------------------------------------------------------------
+q.to.point <- function(
+	Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA,
+	pos = c("center", "topleft", "topright", "bottomleft", "bottomright")
+) {
+	x <- q.to.x(Q, Q1, Q2, SQ1, SQ2)
+	y <- q.to.y(Q, Q1, Q2, SQ1, SQ2)
+	pos <- match.arg(pos)
+	if (!missing(Q)) {
+		SQ2 <- q.to.elements(Q)$SQ2
+	}
+	shift <- ifelse(is.na(SQ2), 10, 5)
+	x <- x - switch(
+		pos, center = shift / 2, topleft = shift, topright = 0,
+		bottomleft = shift, bottomright = 0
+	)
+	y <- y - switch(
+		pos, center = shift / 2, topleft = 0, topright = 0,
+		bottomleft = shift, bottomright = shift
+	)
+	return(list(x = x, y = y))
+}
 
 #------------------------------------------------------------------------------
 #' Convert quadrat code to coordinates of rectangular for the quadrat
