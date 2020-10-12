@@ -124,8 +124,8 @@ construct.q <- function(Q1, Q2, SQ1, SQ2) {
 #' @seealso \code{\link{q.to.y}}
 #' @export
 #------------------------------------------------------------------------------
-q.to.x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
-	if (!missing(Q)) {
+q.to.x <- function(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+	if (!is.na(Q)) {
 		params <- q.to.elements(Q)
 		Q1 <- params$Q1
 		Q2 <- params$Q2
@@ -160,8 +160,8 @@ q.to.x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #' @seealso \code{\link{q.to.x}}
 #' @export
 #------------------------------------------------------------------------------
-q.to.y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
-	if (!missing(Q)) {
+q.to.y <- function(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+	if (!is.na(Q)) {
 		params <- q.to.elements(Q)
 		Q1 <- params$Q1
 		Q2 <- params$Q2
@@ -192,16 +192,12 @@ q.to.y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #'
 #' @export
 #------------------------------------------------------------------------------
-q.to.rect <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
-	if (!missing(Q)) {
-		params <- q.to.elements(Q)
-		Q1 <- params$Q1
-		Q2 <- params$Q2
-		SQ1 <- params$SQ1
-		SQ2 <- params$SQ2
+q.to.rect <- function(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+	x1 <- q.to.x(Q, Q1, Q2, SQ1, SQ2)
+	y1 <- q.to.y(Q, Q1, Q2, SQ1, SQ2)
+	if (!is.na(Q)) {
+		SQ2 <- q.to.elements(Q)$SQ2
 	}
-	x1 <- q.to.x(Q1 = Q1, Q2 = Q2, SQ1 = SQ1, SQ2 = SQ2)
-	y1 <- q.to.y(Q1 = Q1, Q2 = Q2, SQ1 = SQ1, SQ2 = SQ2)
 	x2 <- x1 - ifelse(is.na(SQ2), 10, 5)
 	y2 <- y1 - ifelse(is.na(SQ2), 10, 5)
 	return(list(x1 = x1, x2 = x2, y1 = y1, y2 = y2))
