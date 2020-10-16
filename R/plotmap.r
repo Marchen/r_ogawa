@@ -89,15 +89,24 @@ add.grid <- function(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE) {
 #  Draw grid lines.
 #------------------------------------------------------------------------------
 draw.grid <- function(xmin, xmax, ymin, ymax, ...) {
+	# Draw outline.
 	rect(xmin, ymin, xmax, ymax, lwd = 2)
-	for (x in (xmin / 5):(xmax / 5)) {
-		for (y in (ymin / 5):(ymax / 5)) {
-			segments(x * 5, ymin, x * 5, ymax, lwd = ifelse(x %% 4 == 0, 2, 1))
-			segments(
-				xmin, y * 5, xmax, y * 5, lwd = ifelse(y %% 4 == 0, 2, 1)
-			)
-		}
-	}
+	# Prepare grid lines.
+	x <- (xmin / 5):(xmax / 5)
+	v.lines <- data.frame(
+		x1 = x * 5, y1 = ymin, x2 = x * 5, y2 = ymax,
+		lwd = ifelse(x %% 4 == 0, 2, 1),
+		level = ifelse(x %% 4 == 0, 1, ifelse(x %% 2 == 0, 2, 3))
+	)
+	y <- (ymin / 5):(ymax / 5)
+	h.lines <- data.frame(
+		x1 = xmin, y1 = y * 5, x2 = xmax, y2 = y * 5,
+		lwd = ifelse(y %% 4 == 0, 2, 1),
+		level = ifelse(y %% 4 == 0, 1, ifelse(y %% 2 == 0, 2, 3))
+	)
+	l <- rbind(v.lines, h.lines)
+	# Draw lines.
+	segments(l$x1, l$y1, l$x2, l$y2, lwd = l$lwd)
 }
 
 
