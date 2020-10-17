@@ -64,17 +64,29 @@ create.object <- function(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y) {
 #'
 #' A low level graphic function draws grid lines for the ogawa plot map.
 #'
-#' @param x an \code{ogawa.plot} object.
-#' @param adds.sq.legend if TRUE, adds an legend for sub-quadrats.
-#' @param draws.1.2ha if TRUE, draws the 1.2ha core plot region.
+#' @param x
+#' an \code{ogawa.plot} object.
+#' @param adds.sq.legend
+#' if TRUE, adds an legend for sub-quadrats.
+#' @param draws.1.2ha
+#' if TRUE, draws the 1.2ha core plot region.
+#' @param grid.level
+#' an integer representing level of grid line to draw.
+#' \code{0}: draw all grid lines, \code{1}: omit 5m grid lines,
+#' \code{2}: omit 5m and 10m grid lines, and \code{4}: omit all grid lines.
 #'
 #' @export
 #' @importFrom graphics rect
 #' @importFrom graphics segments
 #' @importFrom graphics text
 #------------------------------------------------------------------------------
-add.grid <- function(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE) {
-	do.call(draw.grid, x)
+add.grid <- function(
+	x, adds.sq.legend = TRUE, draws.1.2ha = TRUE, grid.level = 0
+) {
+	stopifnot(grid.level %in% 0:3)
+	do.call(
+		draw.grid, c(x, list(grid.level = grid.level))
+	)
 	do.call(draw.labels, x)
 	if (draws.1.2ha) {
 		do.call(draw.1.2ha, x)
@@ -88,7 +100,7 @@ add.grid <- function(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE) {
 #------------------------------------------------------------------------------
 #  Draw grid lines.
 #------------------------------------------------------------------------------
-draw.grid <- function(xmin, xmax, ymin, ymax, ...) {
+draw.grid <- function(xmin, xmax, ymin, ymax, grid.level, ...) {
 	# Draw outline.
 	rect(xmin, ymin, xmax, ymax, lwd = 2)
 	# Prepare grid lines.
@@ -96,15 +108,17 @@ draw.grid <- function(xmin, xmax, ymin, ymax, ...) {
 	v.lines <- data.frame(
 		x1 = x * 5, y1 = ymin, x2 = x * 5, y2 = ymax,
 		lwd = ifelse(x %% 4 == 0, 2, 1),
-		level = ifelse(x %% 4 == 0, 1, ifelse(x %% 2 == 0, 2, 3))
+		level = ifelse(x %% 4 == 0, 3, ifelse(x %% 2 == 0, 2, 1))
 	)
 	y <- (ymin / 5):(ymax / 5)
 	h.lines <- data.frame(
 		x1 = xmin, y1 = y * 5, x2 = xmax, y2 = y * 5,
 		lwd = ifelse(y %% 4 == 0, 2, 1),
-		level = ifelse(y %% 4 == 0, 1, ifelse(y %% 2 == 0, 2, 3))
+		level = ifelse(y %% 4 == 0, 3, ifelse(y %% 2 == 0, 2, 1))
 	)
 	l <- rbind(v.lines, h.lines)
+	# Filter grid lines.
+	l <- l[l$level > grid.level, ]
 	# Draw lines.
 	segments(l$x1, l$y1, l$x2, l$y2, lwd = l$lwd)
 }
@@ -113,7 +127,9 @@ draw.grid <- function(xmin, xmax, ymin, ymax, ...) {
 #------------------------------------------------------------------------------
 #  Draw labels.
 #------------------------------------------------------------------------------
-draw.labels <- function(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y) {
+draw.labels <- function(
+	xmin, xmax, ymin, ymax, label.pos.x, label.pos.y, ...
+) {
 	adjust <- min(abs(ymax - ymin), abs(xmax - xmin))
 	# X-axis label (small).
 	for (x in (xmin / 10):(xmax / 10)) {
