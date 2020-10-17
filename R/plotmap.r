@@ -84,6 +84,7 @@ add.grid <- function(
 	x, adds.sq.legend = TRUE, draws.1.2ha = TRUE, grid.level = 0
 ) {
 	stopifnot(grid.level %in% 0:3)
+	dev.hold()
 	do.call(
 		draw.grid, c(x, list(grid.level = grid.level))
 	)
@@ -94,6 +95,7 @@ add.grid <- function(
 	if (adds.sq.legend) {
 		do.call(draw.sq.legend, x)
 	}
+	dev.flush()
 }
 
 
@@ -130,32 +132,33 @@ draw.grid <- function(xmin, xmax, ymin, ymax, grid.level, ...) {
 draw.labels <- function(
 	xmin, xmax, ymin, ymax, label.pos.x, label.pos.y, ...
 ) {
-	adjust <- min(abs(ymax - ymin), abs(xmax - xmin))
+	adjust.x <- abs(xmax - xmin)
+	adjust.y <- abs(ymax - ymin)
 	# X-axis label (small).
-	for (x in (xmin / 10):(xmax / 10)) {
-		text(x * 10, ymax + adjust * label.pos.x[1], x + 1, cex = 0.7)
-	}
+	x <- (xmin / 10):(xmax / 10)
+	xs <- data.frame(
+		x = x * 10, y = ymax + adjust.y * label.pos.x[1], labels = x + 1,
+		cex = 0.7, font = 1
+	)
 	# X-axis label (large).
-	for (x in (xmin / 20 + 1):(xmax / 20)) {
-		text(
-			x * 20 - 10, ymax + adjust * label.pos.x[2], LETTERS[x],
-			cex = 1.5, font = 2
-		)
-	}
+	x <- (xmin / 20 + 1):(xmax / 20)
+	xl <- data.frame(
+		x = x * 20 - 10, y = ymax + adjust.y * label.pos.x[2],
+		labels = LETTERS[x], cex = 1.5, font = 2
+	)
 	# Y-axis label (small).
-	for (y in (ymin / 10):(ymax / 10)) {
-		text(
-			xmin - adjust * label.pos.y[1], y * 10, ymax / 10 - y + 1,
-			cex = 0.7
-		)
-	}
+	y <- (ymin / 10):(ymax / 10)
+	ys <- data.frame(
+		x = xmin - adjust.x * label.pos.y[1], y = y * 10,
+		labels = ymax / 10 - y + 1, cex = 0.7, font = 1
+	)
 	# Y-axis label (large).
-	for (y in (ymin / 20 + 1):(ymax / 20)) {
-		text(
-			xmin - adjust * label.pos.y[2],
-			ymax + 10 - 2 * y * 10 + ymin, y, cex = 1.5, font = 2
-		)
-	}
+	y <- (ymin / 20 + 1):(ymax / 20)
+	yl <- data.frame(
+		x = xmin - adjust.x * label.pos.y[2],
+		y = ymax + 10 - 2 * y * 10 + ymin, labels = y, cex = 1.5, font = 2
+	)
+	do.call(text, rbind(xs, xl, ys, yl))
 }
 
 
