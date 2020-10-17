@@ -4,7 +4,7 @@
 \alias{add.grid}
 \title{Add grid lines for the plot}
 \usage{
-add.grid(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE)
+add.grid(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE, grid.level = 0)
 }
 \arguments{
 \item{x}{an \code{ogawa.plot} object.}
@@ -12,6 +12,10 @@ add.grid(x, adds.sq.legend = TRUE, draws.1.2ha = TRUE)
 \item{adds.sq.legend}{if TRUE, adds an legend for sub-quadrats.}
 
 \item{draws.1.2ha}{if TRUE, draws the 1.2ha core plot region.}
+
+\item{grid.level}{an integer representing level of grid line to draw.
+\code{0}: draw all grid lines, \code{1}: omit 5m grid lines,
+\code{2}: omit 5m and 10m grid lines, and \code{4}: omit all grid lines.}
 }
 \description{
 A low level graphic function draws grid lines for the ogawa plot map.

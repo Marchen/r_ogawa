@@ -4,7 +4,14 @@
 \alias{create.ogawa.plot}
 \title{Create new ogawa forest plot}
 \usage{
-create.ogawa.plot(xmin = 0, xmax = 300, ymin = 0, ymax = 200)
+create.ogawa.plot(
+  xmin = 0,
+  xmax = 300,
+  ymin = 0,
+  ymax = 200,
+  label.pos.x = c(0.02, 0.05),
+  label.pos.y = c(0.02, 0.06)
+)
 }
 \arguments{
 \item{xmin}{a minimum value of x coordinate.}
@@ -14,6 +21,14 @@ create.ogawa.plot(xmin = 0, xmax = 300, ymin = 0, ymax = 200)
 \item{ymin}{a minimum value of y coordinate.}
 
 \item{ymax}{a maximum value of y coordinate.}
+
+\item{label.pos.x}{a numeric vector with two elements. The first element denotes distance
+(% of shorter axis) between small X axis labels and the grid and the
+second denotes distance between large X axis labels and the grid.}
+
+\item{label.pos.y}{a numeric vector with two elements. The first element denotes distance
+(% of shorter axis) between small Y axis labels and the grid and the
+second denotes distance between large Y axis labels and the grid.}
 }
 \value{
 an \code{ogara.plot} object which can be passed to other functions.
