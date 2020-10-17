@@ -79,6 +79,8 @@ create.object <- function(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y) {
 #' @importFrom graphics rect
 #' @importFrom graphics segments
 #' @importFrom graphics text
+#' @importFrom grDevices dev.hold
+#' @importFrom grDevices dev.flush
 #------------------------------------------------------------------------------
 add.grid <- function(
 	x, adds.sq.legend = TRUE, draws.1.2ha = TRUE, grid.level = 0
