@@ -62,7 +62,7 @@ standardize.q <- function(Q) {
 	Q1 <- gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\1", Q)
 	Q2 <- as.integer(gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\2", Q))
 	Q3 <- gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\3", Q)
-	return(sprintf("%s%02s%s", Q1, Q2, Q3))
+	return(sprintf("%s%02i%s", Q1, Q2, Q3))
 }
 
 
