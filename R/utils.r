@@ -5,6 +5,22 @@ Q_REGEXP = "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10)([a-d]{1})([1-4]{0,1})$"
 
 
 #------------------------------------------------------------------------------
+#' Returns all quadrat codes
+#'
+#' @return character representing all quadrat codes.
+#'
+#' @export
+#------------------------------------------------------------------------------
+all_q <- function() {
+	q <- expand.grid(
+		LETTERS[1:15], as.character(1:10), letters[1:4], as.character(1:4),
+		stringsAsFactors = FALSE
+	)
+	return(standardize.q(apply(q, 1, paste0, collapse = "")))
+}
+
+
+#------------------------------------------------------------------------------
 #' Is core plot?
 #'
 #' Determine whether the quadrat is in the 1.2ha  plot.
