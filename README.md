@@ -52,6 +52,10 @@ touches(q1, q2)
 is.in("A1a1", 0, 100, 0, 200)
 is.in("A1a1", q.from = "B01a1", q.to = "B3c2")
 
+# Validate 1cm tag format
+is_valid_1cm_tag("A0000111")
+is_valid_1cm_tag("A00111")
+
 
 #------------------------------------------------------------------------------
 #   Plotting
