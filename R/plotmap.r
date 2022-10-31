@@ -216,15 +216,16 @@ fill.q <- function(Q, ...) {
 #' if TRUE, adds an legend for sub-quadrats.
 #' @param draws.1.2ha
 #' if TRUE, draws the 1.2ha core plot region.
+#' @param col fill color(s).
 #' @param ...
 #' graphic parameters passed to \code{\link[graphics]{rect}} to draw quadrats.
 #'
 #' @export
 #------------------------------------------------------------------------------
 create.quadrat.map <- function(
-	Q, adds.sq.legend = TRUE, draws.1.2ha = TRUE, ...
+	Q, adds.sq.legend = TRUE, draws.1.2ha = TRUE, col = "red", ...
 ) {
 	x <- create.ogawa.plot()
-	fill.q(Q, ...)
+	fill.q(Q, col = col, ...)
 	add.grid(x, adds.sq.legend, draws.1.2ha)
 }
