@@ -30,7 +30,7 @@
 #------------------------------------------------------------------------------
 create.ogawa.plot <- function(
 	xmin = 0, xmax = 300, ymin = 0, ymax = 200,
-	label.pos.x = c(0.02, 0.05), label.pos.y = c(0.02, 0.06)
+	label.pos.x = c(0.02, 0.05), label.pos.y = c(0.02, 0.06), ...
 ) {
 	x <- create.object(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y)
 	adjustment <- min(abs(x$xmax - x$xmin), abs(x$ymax - x$ymin))
@@ -39,7 +39,7 @@ create.ogawa.plot <- function(
 	plot(
 		NA, type = "n", xlim = c(x$xmin - x.margin, x$xmax),
 		ylim = c(x$ymin, x$ymax + y.margin),
-		bty = "n", axes = FALSE, xlab = "", ylab = ""
+		bty = "n", axes = FALSE, xlab = "", ylab = "", ...
 	)
 	return(x)
 }
