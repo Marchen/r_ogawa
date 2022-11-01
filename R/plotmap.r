@@ -207,6 +207,7 @@ fill.q <- function(Q, ...) {
     rect(r$x1, r$y1, r$x2, r$y2, ...)
 }
 
+
 #------------------------------------------------------------------------------
 #' Create a map of ogawa forest plot with colored quadrats
 #'
