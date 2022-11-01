@@ -20,7 +20,7 @@
 #'     (% of shorter axis) between small Y axis labels and the grid and the
 #'     second denotes distance between large Y axis labels and the grid.
 #'
-#' @return an \code{ogara.plot} object which can be passed to other functions.
+#' @return an \code{ogawa.plot} object which can be passed to other functions.
 #'
 #' @examples
 #' x <- create.ogawa.plot()
