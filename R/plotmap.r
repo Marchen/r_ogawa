@@ -11,34 +11,34 @@
 #'     a minimum value of y coordinate.
 #' @param ymax
 #'     a maximum value of y coordinate.
-#' @param label.pos.x
+#' @param label_pos_x
 #'     a numeric vector with two elements. The first element denotes distance
 #'     (% of shorter axis) between small X axis labels and the grid and the
 #'     second denotes distance between large X axis labels and the grid.
-#' @param label.pos.y
+#' @param label_pos_y
 #'     a numeric vector with two elements. The first element denotes distance
 #'     (% of shorter axis) between small Y axis labels and the grid and the
 #'     second denotes distance between large Y axis labels and the grid.
 #'
-#' @return an \code{ogawa.plot} object which can be passed to other functions.
+#' @return an \code{ogawa_plot} object which can be passed to other functions.
 #'
 #' @examples
-#' x <- create.ogawa.plot()
-#' add.grid(x)
+#' x <- create_ogawa_plot()
+#' add_grid(x)
 #'
 #' @export
 #------------------------------------------------------------------------------
-create.ogawa.plot <- function(
+create_ogawa_plot <- function(
     xmin = 0, xmax = 300, ymin = 0, ymax = 200,
-    label.pos.x = c(0.02, 0.05), label.pos.y = c(0.02, 0.06), ...
+    label_pos_x = c(0.02, 0.05), label_pos_y = c(0.02, 0.06), ...
 ) {
-    x <- create.object(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y)
+    x <- create_object(xmin, xmax, ymin, ymax, label_pos_x, label_pos_y)
     adjustment <- min(abs(x$xmax - x$xmin), abs(x$ymax - x$ymin))
-    x.margin <- adjustment * label.pos.y[2]
-    y.margin <- adjustment * label.pos.x[2]
+    x_margin <- adjustment * label_pos_y[2]
+    y_margin <- adjustment * label_pos_x[2]
     plot(
-        NA, type = "n", xlim = c(x$xmin - x.margin, x$xmax),
-        ylim = c(x$ymin, x$ymax + y.margin),
+        NA, type = "n", xlim = c(x$xmin - x_margin, x$xmax),
+        ylim = c(x$ymin, x$ymax + y_margin),
         bty = "n", axes = FALSE, xlab = "", ylab = "", ...
     )
     return(x)
@@ -48,13 +48,13 @@ create.ogawa.plot <- function(
 #------------------------------------------------------------------------------
 #   Create ogawa.plot object.
 #------------------------------------------------------------------------------
-create.object <- function(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y) {
+create_object <- function(xmin, xmax, ymin, ymax, label_pos_x, label_pos_y) {
     mod5 <- function(x) x - (x %% 5)
     object <- list(
         xmin = mod5(xmin), xmax = mod5(xmax), ymin = mod5(ymin),
-        ymax = mod5(ymax), label.pos.x = label.pos.x, label.pos.y = label.pos.y
+        ymax = mod5(ymax), label_pos_x = label_pos_x, label_pos_y = label_pos_y
     )
-    class(object) <- "ogawa.plot"
+    class(object) <- "ogawa_plot"
     return(object)
 }
 
@@ -66,11 +66,11 @@ create.object <- function(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y) {
 #'
 #' @param x
 #'     an \code{ogawa.plot} object.
-#' @param adds.sq.legend
+#' @param adds_sq_legend
 #'     if TRUE, adds an legend for sub-quadrats.
-#' @param draws.1.2ha
+#' @param draws_1_2ha
 #'     if TRUE, draws the 1.2ha core plot region.
-#' @param grid.level
+#' @param grid_level
 #'     an integer representing level of grid line to draw.
 #'     \code{0}: draw all grid lines, \code{1}: omit 5m grid lines,
 #'     \code{2}: omit 5m and 10m grid lines, and \code{4}: omit all grid lines.
@@ -82,20 +82,20 @@ create.object <- function(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y) {
 #' @importFrom grDevices dev.hold
 #' @importFrom grDevices dev.flush
 #------------------------------------------------------------------------------
-add.grid <- function(
-    x, adds.sq.legend = TRUE, draws.1.2ha = TRUE, grid.level = 0
+add_grid <- function(
+    x, adds_sq_legend = TRUE, draws_1_2ha = TRUE, grid_level = 0
 ) {
-    stopifnot(grid.level %in% 0:3)
+    stopifnot(grid_level %in% 0:3)
     dev.hold()
     do.call(
-        draw.grid, c(x, list(grid.level = grid.level))
+        draw_grid, c(x, list(grid_level = grid_level))
     )
-    do.call(draw.labels, x)
-    if (draws.1.2ha) {
-        do.call(draw.1.2ha, x)
+    do.call(draw_labels, x)
+    if (draws_1_2ha) {
+        do.call(draw_1_2ha, x)
     }
-    if (adds.sq.legend) {
-        do.call(draw.sq.legend, x)
+    if (adds_sq_legend) {
+        do.call(draw_sq_legend, x)
     }
     dev.flush()
 }
@@ -104,25 +104,25 @@ add.grid <- function(
 #------------------------------------------------------------------------------
 #   Draw grid lines.
 #------------------------------------------------------------------------------
-draw.grid <- function(xmin, xmax, ymin, ymax, grid.level, ...) {
+draw_grid <- function(xmin, xmax, ymin, ymax, grid_level, ...) {
     # Draw outline.
     rect(xmin, ymin, xmax, ymax, lwd = 2)
     # Prepare grid lines.
     x <- (xmin / 5):(xmax / 5)
-    v.lines <- data.frame(
+    v_lines <- data.frame(
         x1 = x * 5, y1 = ymin, x2 = x * 5, y2 = ymax,
         lwd = ifelse(x %% 4 == 0, 2, 1),
         level = ifelse(x %% 4 == 0, 3, ifelse(x %% 2 == 0, 2, 1))
     )
     y <- (ymin / 5):(ymax / 5)
-    h.lines <- data.frame(
+    h_lines <- data.frame(
         x1 = xmin, y1 = y * 5, x2 = xmax, y2 = y * 5,
         lwd = ifelse(y %% 4 == 0, 2, 1),
         level = ifelse(y %% 4 == 0, 3, ifelse(y %% 2 == 0, 2, 1))
     )
-    l <- rbind(v.lines, h.lines)
+    l <- rbind(v_lines, h_lines)
     # Filter grid lines.
-    l <- l[l$level > grid.level, ]
+    l <- l[l$level > grid_level, ]
     # Draw lines.
     segments(l$x1, l$y1, l$x2, l$y2, lwd = l$lwd)
 }
@@ -131,33 +131,33 @@ draw.grid <- function(xmin, xmax, ymin, ymax, grid.level, ...) {
 #------------------------------------------------------------------------------
 #   Draw labels.
 #------------------------------------------------------------------------------
-draw.labels <- function(
-    xmin, xmax, ymin, ymax, label.pos.x, label.pos.y, ...
+draw_labels <- function(
+    xmin, xmax, ymin, ymax, label_pos_x, label_pos_y, ...
 ) {
-    adjust.x <- abs(xmax - xmin)
-    adjust.y <- abs(ymax - ymin)
+    adjust_x <- abs(xmax - xmin)
+    adjust_y <- abs(ymax - ymin)
     # X-axis label (small).
     x <- (xmin / 10):(xmax / 10)
     xs <- data.frame(
-        x = x * 10, y = ymax + adjust.y * label.pos.x[1], labels = x + 1,
+        x = x * 10, y = ymax + adjust_y * label_pos_x[1], labels = x + 1,
         cex = 0.7, font = 1
     )
     # X-axis label (large).
     x <- (xmin / 20 + 1):(xmax / 20)
     xl <- data.frame(
-        x = x * 20 - 10, y = ymax + adjust.y * label.pos.x[2],
+        x = x * 20 - 10, y = ymax + adjust_y * label_pos_x[2],
         labels = LETTERS[x], cex = 1.5, font = 2
     )
     # Y-axis label (small).
     y <- (ymin / 10):(ymax / 10)
     ys <- data.frame(
-        x = xmin - adjust.x * label.pos.y[1], y = y * 10,
+        x = xmin - adjust_x * label_pos_y[1], y = y * 10,
         labels = ymax / 10 - y + 1, cex = 0.7, font = 1
     )
     # Y-axis label (large).
     y <- (ymin / 20 + 1):(ymax / 20)
     yl <- data.frame(
-        x = xmin - adjust.x * label.pos.y[2],
+        x = xmin - adjust_x * label_pos_y[2],
         y = ymax + 10 - 2 * y * 10 + ymin, labels = y, cex = 1.5, font = 2
     )
     do.call(text, rbind(xs, xl, ys, yl))
@@ -167,7 +167,7 @@ draw.labels <- function(
 #------------------------------------------------------------------------------
 #   Draw 1.2ha region.
 #------------------------------------------------------------------------------
-draw.1.2ha <- function(xmin, xmax, ymin, ymax, ...) {
+draw_1_2ha <- function(xmin, xmax, ymin, ymax, ...) {
     rect(
         max(xmin, 120), max(ymin, 60), min(xmax, 220), min(ymax, 180), lwd = 5
     )
@@ -177,7 +177,7 @@ draw.1.2ha <- function(xmin, xmax, ymin, ymax, ...) {
 #------------------------------------------------------------------------------
 #   Draw sub-quadrat region.
 #------------------------------------------------------------------------------
-draw.sq.legend <- function(xmin, xmax, ymin, ymax, ...) {
+draw_sq_legend <- function(xmin, xmax, ymin, ymax, ...) {
     for (i in 1:4) {
         text(
             xmin + 5 + (i + 1) %% 2 * 10, ymax - 5 - ((i) %/% 3) * 10,
@@ -202,8 +202,8 @@ draw.sq.legend <- function(xmin, xmax, ymin, ymax, ...) {
 #' @export
 #' @importFrom graphics rect
 #------------------------------------------------------------------------------
-fill.q <- function(Q, ...) {
-    r <- q.to.rect(Q)
+fill_q <- function(Q, ...) {
+    r <- q_to_rect(Q)
     rect(r$x1, r$y1, r$x2, r$y2, ...)
 }
 
@@ -213,9 +213,9 @@ fill.q <- function(Q, ...) {
 #'
 #' @param Q
 #'     quadrat codes to be filled.
-#' @param adds.sq.legend
+#' @param adds_sq_legend
 #'     if TRUE, adds an legend for sub-quadrats.
-#' @param draws.1.2ha
+#' @param draws_1_2ha
 #'     if TRUE, draws the 1.2ha core plot region.
 #' @param contour
 #'     if TRUE, draw contour.
@@ -226,16 +226,16 @@ fill.q <- function(Q, ...) {
 #'
 #' @export
 #------------------------------------------------------------------------------
-create.quadrat.map <- function(
-    Q, adds.sq.legend = TRUE, draws.1.2ha = TRUE, contour = FALSE,
+create_quadrat_map <- function(
+    Q, adds_sq_legend = TRUE, draws_1_2ha = TRUE, contour = FALSE,
     col = rgb(1, 0, 0, 0.5), ...
 ) {
-    x <- create.ogawa.plot()
+    x <- create_ogawa_plot()
     if (contour) {
         draw_contour()
     }
-    fill.q(Q, col = col, ...)
-    add.grid(x, adds.sq.legend, draws.1.2ha)
+    fill_q(Q, col = col, ...)
+    add_grid(x, adds_sq_legend, draws_1_2ha)
 }
 
 
