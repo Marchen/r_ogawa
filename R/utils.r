@@ -37,13 +37,24 @@ all_q <- function() {
 #'
 #' @export
 #------------------------------------------------------------------------------
-is.core <- function(Q, invalid = NA) {
+is_core <- function(Q, invalid = NA) {
 	x <- q.to.elements(Q)
 	result <- ifelse(
 		!is.valid.q(Q), invalid,
 		x$Q1 %in% LETTERS[7:11] & x$Q2 >= 2 & x$Q2 <= 7
 	)
 	return(result)
+}
+
+#------------------------------------------------------------------------------
+#' @export
+#------------------------------------------------------------------------------
+is.core <- function(Q, invalid = NA) {
+    warning(
+        "is.core() was deplicated and will be removed in future version.",
+        "Use is_core() instead."
+    )
+    return(is_core(Q, invalid))
 }
 
 
