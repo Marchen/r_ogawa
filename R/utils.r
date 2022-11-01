@@ -275,12 +275,17 @@ q.to.rect <- function(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 
 
 #------------------------------------------------------------------------------
-#' Check if the plot pairs touch each other
+#' Check if quadrat pairs touch each other
 #'
-#' @param q1 quadrat codes, should have equal length with q2.
-#' @param q2 quadrat codes, should have equal length with q1.
+#' @param q1
+#'     quadrat codes, having length of one, or equal length with q2.
+#' @param q2
+#'     quadrat codes, having length of one, or equal length with q1.
+#' @param corner
+#'     if TRUE, quadrats touch only at their corners also treated as touched.
 #'
-#' @return Returns TRUE if the two plots touch each other and FALSE if are not.
+#' @return
+#'     Returns TRUE if the two plots touch each other and FALSE if do not.
 #'
 #' @examples
 #' q1 <- c("A1a2", "A1a2", "A1a1")
@@ -289,8 +294,22 @@ q.to.rect <- function(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #'
 #' @export
 #------------------------------------------------------------------------------
-touches <- function(q1, q2) {
+touches <- function(q1, q2, corner = FALSE) {
+    # Check validity of quadrat codes.
+    if (any(!is.valid.q(c(q1, q2)))) {
+        stop("Invalid quadrat codes were given for q1 and/or q2.")
+    }
+    # If length of q1 or q2 is 1,
+    # repeat q1 or q2 to have same length with the other.
+    if (length(q1) == 1) {
+        q1 <- rep(q1, length(q2))
+    }
+    if (length(q2) == 1) {
+        q2 <- rep(q2, length(q1))
+    }
+    # Check length of q1 and q2.
 	stopifnot(length(q1) == length(q2))
+	# Check q1 and q2 intersect.
 	r1 <- as.data.frame(q.to.rect(q1))
 	r2 <- as.data.frame(q.to.rect(q2))
 	x1 <- lapply(1:nrow(r1), function(i) c(r1$x1[i], r1$x2[i]))
@@ -299,7 +318,37 @@ touches <- function(q1, q2) {
 	y2 <- lapply(1:nrow(r2), function(i) c(r2$y1[i], r2$y2[i]))
 	intersect.x <- mapply(function(x, y) length(intersect(x, y)) > 0, x1, x2)
 	intersect.y <- mapply(function(x, y) length(intersect(x, y)) > 0, y1, y2)
-	return(intersect.x & intersect.y)
+	has_intersection <- intersect.x & intersect.y
+	# Check intersection at a corner.
+	if (corner) {
+	    return (has_intersection)
+	}
+	return(has_intersection & !touches_at_corner(x1, x2, y1, y2))
+}
+
+
+#------------------------------------------------------------------------------
+#   Check if the pair(s) of quadrat touches at their corner.
+#
+#   @param x1 x-coordinates of the quadrat 1.
+#   @param x2 x-coordinates of the quadrat 2.
+#   @param y1 y-coordinates of the quadrat 1.
+#   @param y2 y-coordinates of the quadrat 2.
+#------------------------------------------------------------------------------
+touches_at_corner <- function(x1, x2, y1, y2) {
+    to_corner <- function(x, y) lapply(
+        mapply(
+            function(x, y) expand.grid(x = x, y = y), x, y, SIMPLIFY = FALSE
+        ),
+        function(x) apply(x, 1, c, simplify = FALSE)
+    )
+    result <- sapply(
+        mapply(
+            intersect, to_corner(x1, y1), to_corner(x2, y2), SIMPLIFY = FALSE
+        ),
+        function(x) length(x) == 1
+    )
+    return(result)
 }
 
 
