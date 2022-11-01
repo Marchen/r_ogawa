@@ -374,6 +374,30 @@ all_touching <- function(..., corner = TRUE) {
 
 
 #------------------------------------------------------------------------------
+#' Find adjacent quadrats
+#'
+#' @param q character having length of 1 representing quadrat code to find.
+#' @param corner
+#'     if TRUE, includes quadrats touching at the corners of the quadrat.
+#' @return character vector representing codes of adjacent quodrats.
+#' @export
+#'
+# TODO: Implement better algorithm using coordinates.
+#------------------------------------------------------------------------------
+find_adjacent_qs <- function(q, corner = TRUE) {
+	stopifnot(length(q) == 1)
+	all_qs <- all_q()
+	adjacent_qs <- all_qs[touches(all_qs, rep(q, length(all_qs)))]
+	adjacent_qs <- adjacent_qs[adjacent_qs != q]
+	if (!corner) {
+		d <- dist(as.data.frame(q.to.point(c(q, adjacent_qs))))
+		adjacent_qs <- adjacent_qs[d[1:length(adjacent_qs)] == 5]
+	}
+	return(adjacent_qs)
+}
+
+
+#------------------------------------------------------------------------------
 #' Check if quadrats are in a specified region
 #'
 #' Check if quadrats are in a specified region.
