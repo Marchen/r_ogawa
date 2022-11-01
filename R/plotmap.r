@@ -217,6 +217,8 @@ fill.q <- function(Q, ...) {
 #'     if TRUE, adds an legend for sub-quadrats.
 #' @param draws.1.2ha
 #'     if TRUE, draws the 1.2ha core plot region.
+#' @param contour
+#'     if TRUE, draw contour.
 #' @param col fill color(s).
 #' @param ...
 #'     graphic parameters passed to \code{\link[graphics]{rect}} to draw
@@ -225,9 +227,38 @@ fill.q <- function(Q, ...) {
 #' @export
 #------------------------------------------------------------------------------
 create.quadrat.map <- function(
-    Q, adds.sq.legend = TRUE, draws.1.2ha = TRUE, col = "red", ...
+    Q, adds.sq.legend = TRUE, draws.1.2ha = TRUE, contour = FALSE,
+    col = rgb(1, 0, 0, 0.5), ...
 ) {
     x <- create.ogawa.plot()
+    if (contour) {
+        draw_contour()
+    }
     fill.q(Q, col = col, ...)
     add.grid(x, adds.sq.legend, draws.1.2ha)
 }
+
+
+#------------------------------------------------------------------------------
+#   (Internal) Add contour
+#------------------------------------------------------------------------------
+draw_contour <- function() {
+    ogawa_contour <- load_contour()
+    image(
+        ogawa_contour, col = c("black", "white"), useRaster = TRUE,
+        x = 300 * (0:nrow(ogawa_contour)) / nrow(ogawa_contour),
+        y = 200 * (0:ncol(ogawa_contour)) / ncol(ogawa_contour), add = TRUE
+    )
+}
+
+
+#------------------------------------------------------------------------------
+#   (Internal) Load contour image data
+#------------------------------------------------------------------------------
+load_contour <- function() {
+    map_image <- imager::load.image(
+        system.file("contour.png", package = "ogawa")
+    )
+    return(map_image[, ncol(map_image):0, 1, 1])
+}
+load_contour <- memoise::memoise(load_contour)

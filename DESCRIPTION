@@ -8,4 +8,8 @@ Description: Many utility functions for management of the Ogawa Forest Plot data
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
+Depends:
+    R (>= 2.10),
+    imager,
+    memoise
