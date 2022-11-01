@@ -353,6 +353,27 @@ touches_at_corner <- function(x1, x2, y1, y2) {
 
 
 #------------------------------------------------------------------------------
+#' Check all quadrats are touching each other
+#'
+#' @param ...
+#'     quadrat codes.
+#' @param corner
+#'     if TRUE, quadrats contiguous at their corners are also treated as
+#'     contiguous. Defaults to TRUE.
+#'
+#' @return Returns TRUE if all specified quadrats are contiguous.
+#' @export
+#------------------------------------------------------------------------------
+all_touching <- function(..., corner = TRUE) {
+    qs <- unique(c(...))
+    if (any(!is.valid.q(qs))) {
+        stop("Invalid quadrat codes were given.")
+    }
+    return(all(sapply(qs, touches, q2 = qs, corner = corner)))
+}
+
+
+#------------------------------------------------------------------------------
 #' Check if quadrats are in a specified region
 #'
 #' Check if quadrats are in a specified region.
