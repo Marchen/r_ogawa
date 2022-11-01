@@ -12,11 +12,11 @@ Q_REGEXP = "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10|11)([a-d]{1})([1-4]{0,1})$"
 #' @export
 #------------------------------------------------------------------------------
 all_q <- function() {
-	q <- expand.grid(
-		LETTERS[1:15], as.character(1:10), letters[1:4], as.character(1:4),
-		stringsAsFactors = FALSE
-	)
-	return(standardize.q(apply(q, 1, paste0, collapse = "")))
+    q <- expand.grid(
+        LETTERS[1:15], as.character(1:10), letters[1:4], as.character(1:4),
+        stringsAsFactors = FALSE
+    )
+    return(standardize.q(apply(q, 1, paste0, collapse = "")))
 }
 
 
@@ -38,12 +38,12 @@ all_q <- function() {
 #' @export
 #------------------------------------------------------------------------------
 is_core <- function(Q, invalid = NA) {
-	x <- q.to.elements(Q)
-	result <- ifelse(
-		!is.valid.q(Q), invalid,
-		x$Q1 %in% LETTERS[7:11] & x$Q2 >= 2 & x$Q2 <= 7
-	)
-	return(result)
+    x <- q.to.elements(Q)
+    result <- ifelse(
+        !is.valid.q(Q), invalid,
+        x$Q1 %in% LETTERS[7:11] & x$Q2 >= 2 & x$Q2 <= 7
+    )
+    return(result)
 }
 
 #------------------------------------------------------------------------------
@@ -69,8 +69,8 @@ is.core <- function(Q, invalid = NA) {
 #' @export
 #------------------------------------------------------------------------------
 is.valid.q <- function(Q) {
-	is.valid <- grepl(Q_REGEXP, Q)
-	return(is.valid)
+    is.valid <- grepl(Q_REGEXP, Q)
+    return(is.valid)
 }
 
 
@@ -86,10 +86,10 @@ is.valid.q <- function(Q) {
 #' @export
 #------------------------------------------------------------------------------
 standardize.q <- function(Q) {
-	Q1 <- gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\1", Q)
-	Q2 <- as.integer(gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\2", Q))
-	Q3 <- gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\3", Q)
-	return(sprintf("%s%02i%s", Q1, Q2, Q3))
+    Q1 <- gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\1", Q)
+    Q2 <- as.integer(gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\2", Q))
+    Q3 <- gsub("([A-O]{1})([0-9]{1,2})(.*)", "\\3", Q)
+    return(sprintf("%s%02i%s", Q1, Q2, Q3))
 }
 
 
@@ -105,12 +105,12 @@ standardize.q <- function(Q) {
 #' @export
 #------------------------------------------------------------------------------
 q.to.elements <- function(Q) {
-	Q[!is.valid.q(Q)] <- NA
-	Q1 <- gsub(Q_REGEXP, "\\1", Q)
-	Q2 <- as.integer(gsub(Q_REGEXP, "\\2", Q))
-	SQ1 <- gsub(Q_REGEXP, "\\3", Q)
-	SQ2 <- as.integer(gsub(Q_REGEXP, "\\4", Q))
-	return(list(Q1 = Q1, Q2 = Q2, SQ1 = SQ1, SQ2 = SQ2))
+    Q[!is.valid.q(Q)] <- NA
+    Q1 <- gsub(Q_REGEXP, "\\1", Q)
+    Q2 <- as.integer(gsub(Q_REGEXP, "\\2", Q))
+    SQ1 <- gsub(Q_REGEXP, "\\3", Q)
+    SQ2 <- as.integer(gsub(Q_REGEXP, "\\4", Q))
+    return(list(Q1 = Q1, Q2 = Q2, SQ1 = SQ1, SQ2 = SQ2))
 }
 
 
@@ -129,9 +129,9 @@ q.to.elements <- function(Q) {
 #' @export
 #------------------------------------------------------------------------------
 construct.q <- function(Q1, Q2, SQ1, SQ2) {
-	fn <- function(x) ifelse(is.na(x), "", x)
-	Q2 <- ifelse(is.na(Q2), "??", sprintf("%02s", Q2))
-	return(paste0(fn(Q1), Q2, fn(SQ1), fn(SQ2)))
+    fn <- function(x) ifelse(is.na(x), "", x)
+    Q2 <- ifelse(is.na(Q2), "??", sprintf("%02s", Q2))
+    return(paste0(fn(Q1), Q2, fn(SQ1), fn(SQ2)))
 }
 
 
@@ -152,22 +152,22 @@ construct.q <- function(Q1, Q2, SQ1, SQ2) {
 #' @export
 #------------------------------------------------------------------------------
 q.to.x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
-	if (!missing(Q)) {
-		params <- q.to.elements(Q)
-		Q1 <- params$Q1
-		Q2 <- params$Q2
-		SQ1 <- params$SQ1
-		SQ2 <- params$SQ2
-	}
-	if (any(is.na(c(Q1, Q2, SQ1)))) {
-		stop("Needs specifying Q or all of Q1, Q2, SQ1 (and SQ2)")
-	}
-	x <- (
-		(as.integer(sapply(Q1, charToRaw)) - 65) * 20
-		+ ifelse(SQ1 %in% c("a", "c"), 0, 1) * 10
-		+ ifelse(!is.na(SQ2), (SQ2 - 1) %% 2 + 1, 2) * 5
-	)
-	return(x)
+    if (!missing(Q)) {
+        params <- q.to.elements(Q)
+        Q1 <- params$Q1
+        Q2 <- params$Q2
+        SQ1 <- params$SQ1
+        SQ2 <- params$SQ2
+    }
+    if (any(is.na(c(Q1, Q2, SQ1)))) {
+        stop("Needs specifying Q or all of Q1, Q2, SQ1 (and SQ2)")
+    }
+    x <- (
+        (as.integer(sapply(Q1, charToRaw)) - 65) * 20
+        + ifelse(SQ1 %in% c("a", "c"), 0, 1) * 10
+        + ifelse(!is.na(SQ2), (SQ2 - 1) %% 2 + 1, 2) * 5
+    )
+    return(x)
 }
 
 
@@ -188,21 +188,21 @@ q.to.x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #' @export
 #------------------------------------------------------------------------------
 q.to.y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
-	if (!missing(Q)) {
-		params <- q.to.elements(Q)
-		Q1 <- params$Q1
-		Q2 <- params$Q2
-		SQ1 <- params$SQ1
-		SQ2 <- params$SQ2
-	}
-	if (any(is.na(c(Q1, Q2, SQ1)))) {
-		stop("Needs specifying Q or all of Q1, Q2, SQ1 and SQ2")
-	}
-	sq1 <- c(a = 0, b = 0, c = 1, d = 1)
-	y <- 200 - (Q2 - 1) * 20 - sq1[SQ1] * 10
-	y <- y - ifelse(is.na(SQ2), 0, (floor((SQ2 - 1) / 2) * 5))
-	names(y) <- NULL
-	return(y)
+    if (!missing(Q)) {
+        params <- q.to.elements(Q)
+        Q1 <- params$Q1
+        Q2 <- params$Q2
+        SQ1 <- params$SQ1
+        SQ2 <- params$SQ2
+    }
+    if (any(is.na(c(Q1, Q2, SQ1)))) {
+        stop("Needs specifying Q or all of Q1, Q2, SQ1 and SQ2")
+    }
+    sq1 <- c(a = 0, b = 0, c = 1, d = 1)
+    y <- 200 - (Q2 - 1) * 20 - sq1[SQ1] * 10
+    y <- y - ifelse(is.na(SQ2), 0, (floor((SQ2 - 1) / 2) * 5))
+    names(y) <- NULL
+    return(y)
 }
 
 #------------------------------------------------------------------------------
@@ -228,25 +228,25 @@ q.to.y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #' @export
 #------------------------------------------------------------------------------
 q.to.point <- function(
-	Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA,
-	pos = c("center", "topleft", "topright", "bottomleft", "bottomright")
+    Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA,
+    pos = c("center", "topleft", "topright", "bottomleft", "bottomright")
 ) {
-	x <- q.to.x(Q, Q1, Q2, SQ1, SQ2)
-	y <- q.to.y(Q, Q1, Q2, SQ1, SQ2)
-	pos <- match.arg(pos)
-	if (!missing(Q)) {
-		SQ2 <- q.to.elements(Q)$SQ2
-	}
-	shift <- ifelse(is.na(SQ2), 10, 5)
-	x <- x - switch(
-		pos, center = shift / 2, topleft = shift, topright = 0,
-		bottomleft = shift, bottomright = 0
-	)
-	y <- y - switch(
-		pos, center = shift / 2, topleft = 0, topright = 0,
-		bottomleft = shift, bottomright = shift
-	)
-	return(list(x = x, y = y))
+    x <- q.to.x(Q, Q1, Q2, SQ1, SQ2)
+    y <- q.to.y(Q, Q1, Q2, SQ1, SQ2)
+    pos <- match.arg(pos)
+    if (!missing(Q)) {
+        SQ2 <- q.to.elements(Q)$SQ2
+    }
+    shift <- ifelse(is.na(SQ2), 10, 5)
+    x <- x - switch(
+        pos, center = shift / 2, topleft = shift, topright = 0,
+        bottomleft = shift, bottomright = 0
+    )
+    y <- y - switch(
+        pos, center = shift / 2, topleft = 0, topright = 0,
+        bottomleft = shift, bottomright = shift
+    )
+    return(list(x = x, y = y))
 }
 
 #------------------------------------------------------------------------------
@@ -263,14 +263,14 @@ q.to.point <- function(
 #' @export
 #------------------------------------------------------------------------------
 q.to.rect <- function(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
-	x1 <- q.to.x(Q, Q1, Q2, SQ1, SQ2)
-	y1 <- q.to.y(Q, Q1, Q2, SQ1, SQ2)
-	if (!missing(Q)) {
-		SQ2 <- q.to.elements(Q)$SQ2
-	}
-	x2 <- x1 - ifelse(is.na(SQ2), 10, 5)
-	y2 <- y1 - ifelse(is.na(SQ2), 10, 5)
-	return(list(x1 = x1, x2 = x2, y1 = y1, y2 = y2))
+    x1 <- q.to.x(Q, Q1, Q2, SQ1, SQ2)
+    y1 <- q.to.y(Q, Q1, Q2, SQ1, SQ2)
+    if (!missing(Q)) {
+        SQ2 <- q.to.elements(Q)$SQ2
+    }
+    x2 <- x1 - ifelse(is.na(SQ2), 10, 5)
+    y2 <- y1 - ifelse(is.na(SQ2), 10, 5)
+    return(list(x1 = x1, x2 = x2, y1 = y1, y2 = y2))
 }
 
 
@@ -308,22 +308,22 @@ touches <- function(q1, q2, corner = FALSE) {
         q2 <- rep(q2, length(q1))
     }
     # Check length of q1 and q2.
-	stopifnot(length(q1) == length(q2))
-	# Check q1 and q2 intersect.
-	r1 <- as.data.frame(q.to.rect(q1))
-	r2 <- as.data.frame(q.to.rect(q2))
-	x1 <- lapply(1:nrow(r1), function(i) c(r1$x1[i], r1$x2[i]))
-	x2 <- lapply(1:nrow(r2), function(i) c(r2$x1[i], r2$x2[i]))
-	y1 <- lapply(1:nrow(r1), function(i) c(r1$y1[i], r1$y2[i]))
-	y2 <- lapply(1:nrow(r2), function(i) c(r2$y1[i], r2$y2[i]))
-	intersect.x <- mapply(function(x, y) length(intersect(x, y)) > 0, x1, x2)
-	intersect.y <- mapply(function(x, y) length(intersect(x, y)) > 0, y1, y2)
-	has_intersection <- intersect.x & intersect.y
-	# Check intersection at a corner.
-	if (corner) {
-	    return (has_intersection)
-	}
-	return(has_intersection & !touches_at_corner(x1, x2, y1, y2))
+    stopifnot(length(q1) == length(q2))
+    # Check q1 and q2 intersect.
+    r1 <- as.data.frame(q.to.rect(q1))
+    r2 <- as.data.frame(q.to.rect(q2))
+    x1 <- lapply(1:nrow(r1), function(i) c(r1$x1[i], r1$x2[i]))
+    x2 <- lapply(1:nrow(r2), function(i) c(r2$x1[i], r2$x2[i]))
+    y1 <- lapply(1:nrow(r1), function(i) c(r1$y1[i], r1$y2[i]))
+    y2 <- lapply(1:nrow(r2), function(i) c(r2$y1[i], r2$y2[i]))
+    intersect.x <- mapply(function(x, y) length(intersect(x, y)) > 0, x1, x2)
+    intersect.y <- mapply(function(x, y) length(intersect(x, y)) > 0, y1, y2)
+    has_intersection <- intersect.x & intersect.y
+    # Check intersection at a corner.
+    if (corner) {
+        return (has_intersection)
+    }
+    return(has_intersection & !touches_at_corner(x1, x2, y1, y2))
 }
 
 
@@ -385,15 +385,15 @@ all_touching <- function(..., corner = TRUE) {
 # TODO: Implement better algorithm using coordinates.
 #------------------------------------------------------------------------------
 find_adjacent_qs <- function(q, corner = TRUE) {
-	stopifnot(length(q) == 1)
-	all_qs <- all_q()
-	adjacent_qs <- all_qs[touches(all_qs, rep(q, length(all_qs)))]
-	adjacent_qs <- adjacent_qs[adjacent_qs != q]
-	if (!corner) {
-		d <- dist(as.data.frame(q.to.point(c(q, adjacent_qs))))
-		adjacent_qs <- adjacent_qs[d[1:length(adjacent_qs)] == 5]
-	}
-	return(adjacent_qs)
+    stopifnot(length(q) == 1)
+    all_qs <- all_q()
+    adjacent_qs <- all_qs[touches(all_qs, rep(q, length(all_qs)))]
+    adjacent_qs <- adjacent_qs[adjacent_qs != q]
+    if (!corner) {
+        d <- dist(as.data.frame(q.to.point(c(q, adjacent_qs))))
+        adjacent_qs <- adjacent_qs[d[1:length(adjacent_qs)] == 5]
+    }
+    return(adjacent_qs)
 }
 
 
@@ -421,21 +421,21 @@ find_adjacent_qs <- function(q, corner = TRUE) {
 #' @export
 #------------------------------------------------------------------------------
 is.in <- function(
-	Q, xmin = NA, xmax = NA, ymin = NA, ymax = NA, q.from = NA, q.to = NA
+    Q, xmin = NA, xmax = NA, ymin = NA, ymax = NA, q.from = NA, q.to = NA
 ) {
-	if (!is.na(q.from) & !is.na(q.to)) {
-		if (length(q.from) != 1 | length(q.to) != 1) {
-			stop("Length of 'q.from' and 'q.to' should be one.")
-		}
-		r1 <- q.to.rect(q.from)
-		r2 <- q.to.rect(q.to)
-		xmin <- min(r1$x2, r2$x2)
-		xmax <- max(r1$x1, r2$x1)
-		ymin <- min(r1$y2, r2$y2)
-		ymax <- max(r1$y1, r2$y1)
-	}
-	r <- q.to.rect(Q)
-	x <- xmin <= r$x1 & xmin <= r$x2 & r$x1 <= xmax & r$x2 <= xmax
-	y <- ymin <= r$y1 & ymin <= r$y2 & r$y1 <= ymax & r$y2 <= ymax
-	return(x & y)
+    if (!is.na(q.from) & !is.na(q.to)) {
+        if (length(q.from) != 1 | length(q.to) != 1) {
+            stop("Length of 'q.from' and 'q.to' should be one.")
+        }
+        r1 <- q.to.rect(q.from)
+        r2 <- q.to.rect(q.to)
+        xmin <- min(r1$x2, r2$x2)
+        xmax <- max(r1$x1, r2$x1)
+        ymin <- min(r1$y2, r2$y2)
+        ymax <- max(r1$y1, r2$y1)
+    }
+    r <- q.to.rect(Q)
+    x <- xmin <= r$x1 & xmin <= r$x2 & r$x1 <= xmax & r$x2 <= xmax
+    y <- ymin <= r$y1 & ymin <= r$y2 & r$y1 <= ymax & r$y2 <= ymax
+    return(x & y)
 }
