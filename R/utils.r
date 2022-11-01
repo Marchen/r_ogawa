@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------------
-# A regular expression representing quadrat codes.
+#   A regular expression representing quadrat codes.
 #------------------------------------------------------------------------------
 Q_REGEXP <- "^([A-O]{1})([1-9]{1}|0[1-9]{1}|10|11)([a-d]{1})([1-4]{0,1})$"
 
@@ -26,14 +26,14 @@ all_q <- function() {
 #' Determine whether the quadrat is in the 1.2ha  plot.
 #'
 #' @param Q
-#' vector of quadrat code(s), e.g., "A1b2" or "B02c3".
+#'     vector of quadrat code(s), e.g., "A1b2" or "B02c3".
 #' @param invalid
-#' a value returned for invalid quadrat codes including empty characters and
-#' NAs.
+#'     a value returned for invalid quadrat codes including empty characters
+#'     and NAs.
 #'
 #' @return
-#' logical indicating whether specified quadrats are in 1.2ha region.
-#' For NAs and empty characters, return NA.
+#'     logical indicating whether specified quadrats are in 1.2ha region.
+#'     For NAs and empty characters, return NA.
 #'
 #' @export
 #------------------------------------------------------------------------------
@@ -64,7 +64,8 @@ is.core <- function(Q, invalid = NA) {
 #' @param Q quadrat code(s).
 #'
 #' @return
-#' returns TRUE for quadrat codes in valid format and FALSE for invalid format.
+#'     returns TRUE for quadrat codes in valid format and FALSE for invalid
+#'     format.
 #'
 #' @export
 #------------------------------------------------------------------------------
@@ -99,8 +100,8 @@ standardize.q <- function(Q) {
 #' @param Q vector of quadrat code(s).
 #'
 #' @return
-#' a list of quadrat code elements.
-#' For invalit quadrat codes, NAs are returned.
+#'     a list of quadrat code elements.
+#'     For invalid quadrat codes, NAs are returned.
 #'
 #' @export
 #------------------------------------------------------------------------------
@@ -209,19 +210,19 @@ q.to.y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #' Convert quadrat codes to coordinates of points
 #'
 #' @param Q
-#' vector of quadrat code(s). When Q is specified, Q1, Q2, SQ1 and Q2 are
-#' ignored.
+#'     vector of quadrat code(s). When Q is specified, Q1, Q2, SQ1 and Q2 are
+#'     ignored.
 #' @param Q1
-#' vector of capital alphabet part of quadrat code.
+#'     vector of capital alphabet part of quadrat code.
 #' @param Q2
-#' vector of first numerical part of quadrat code.
+#'     vector of first numerical part of quadrat code.
 #' @param SQ1
-#' vector of lower alphabet part of quadrat code.
+#'     vector of lower alphabet part of quadrat code.
 #' @param SQ2
-#' vector of second numerical part of quadrat code.
+#'     vector of second numerical part of quadrat code.
 #' @param pos
-#' position of the quadrat, can be one of "center", "topleft", "topright",
-#' "bottomleft", "bottomright".
+#'     position of the quadrat, can be one of "center", "topleft", "topright",
+#'     "bottomleft", "bottomright".
 #'
 #' @return list of x and y coordinates of the point(s).
 #'
@@ -328,7 +329,7 @@ touches <- function(q1, q2, corner = FALSE) {
 
 
 #------------------------------------------------------------------------------
-#   Check if the pair(s) of quadrat touches at their corner.
+#   (Internal) Check if the pair(s) of quadrat touches at their corner.
 #
 #   @param x1 x-coordinates of the quadrat 1.
 #   @param x2 x-coordinates of the quadrat 2.
@@ -379,10 +380,10 @@ all_touching <- function(..., corner = TRUE) {
 #' @param q character having length of 1 representing quadrat code to find.
 #' @param corner
 #'     if TRUE, includes quadrats touching at the corners of the quadrat.
-#' @return character vector representing codes of adjacent quodrats.
+#' @return character vector representing codes of adjacent quadrats.
 #' @export
 #'
-# TODO: Implement better algorithm using coordinates.
+#  TODO: Implement better algorithm using coordinates.
 #------------------------------------------------------------------------------
 find_adjacent_qs <- function(q, corner = TRUE) {
     stopifnot(length(q) == 1)

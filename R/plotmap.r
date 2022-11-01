@@ -4,21 +4,21 @@
 #' Create new plot for ogawa forest plot map.
 #'
 #' @param xmin
-#' a minimum value of x coordinate.
+#'     a minimum value of x coordinate.
 #' @param xmax
-#' a maximum value of x coordinate.
+#'     a maximum value of x coordinate.
 #' @param ymin
-#' a minimum value of y coordinate.
+#'     a minimum value of y coordinate.
 #' @param ymax
-#' a maximum value of y coordinate.
+#'     a maximum value of y coordinate.
 #' @param label.pos.x
-#' a numeric vector with two elements. The first element denotes distance
-#' (% of shorter axis) between small X axis labels and the grid and the
-#' second denotes distance between large X axis labels and the grid.
+#'     a numeric vector with two elements. The first element denotes distance
+#'     (% of shorter axis) between small X axis labels and the grid and the
+#'     second denotes distance between large X axis labels and the grid.
 #' @param label.pos.y
-#' a numeric vector with two elements. The first element denotes distance
-#' (% of shorter axis) between small Y axis labels and the grid and the
-#' second denotes distance between large Y axis labels and the grid.
+#'     a numeric vector with two elements. The first element denotes distance
+#'     (% of shorter axis) between small Y axis labels and the grid and the
+#'     second denotes distance between large Y axis labels and the grid.
 #'
 #' @return an \code{ogara.plot} object which can be passed to other functions.
 #'
@@ -46,7 +46,7 @@ create.ogawa.plot <- function(
 
 
 #------------------------------------------------------------------------------
-#  Create ogawa.plot object.
+#   Create ogawa.plot object.
 #------------------------------------------------------------------------------
 create.object <- function(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y) {
     mod5 <- function(x) x - (x %% 5)
@@ -65,15 +65,15 @@ create.object <- function(xmin, xmax, ymin, ymax, label.pos.x, label.pos.y) {
 #' A low level graphic function draws grid lines for the ogawa plot map.
 #'
 #' @param x
-#' an \code{ogawa.plot} object.
+#'     an \code{ogawa.plot} object.
 #' @param adds.sq.legend
-#' if TRUE, adds an legend for sub-quadrats.
+#'     if TRUE, adds an legend for sub-quadrats.
 #' @param draws.1.2ha
-#' if TRUE, draws the 1.2ha core plot region.
+#'     if TRUE, draws the 1.2ha core plot region.
 #' @param grid.level
-#' an integer representing level of grid line to draw.
-#' \code{0}: draw all grid lines, \code{1}: omit 5m grid lines,
-#' \code{2}: omit 5m and 10m grid lines, and \code{4}: omit all grid lines.
+#'     an integer representing level of grid line to draw.
+#'     \code{0}: draw all grid lines, \code{1}: omit 5m grid lines,
+#'     \code{2}: omit 5m and 10m grid lines, and \code{4}: omit all grid lines.
 #'
 #' @export
 #' @importFrom graphics rect
@@ -102,7 +102,7 @@ add.grid <- function(
 
 
 #------------------------------------------------------------------------------
-#  Draw grid lines.
+#   Draw grid lines.
 #------------------------------------------------------------------------------
 draw.grid <- function(xmin, xmax, ymin, ymax, grid.level, ...) {
     # Draw outline.
@@ -129,7 +129,7 @@ draw.grid <- function(xmin, xmax, ymin, ymax, grid.level, ...) {
 
 
 #------------------------------------------------------------------------------
-#  Draw labels.
+#   Draw labels.
 #------------------------------------------------------------------------------
 draw.labels <- function(
     xmin, xmax, ymin, ymax, label.pos.x, label.pos.y, ...
@@ -165,7 +165,7 @@ draw.labels <- function(
 
 
 #------------------------------------------------------------------------------
-#  Draw 1.2ha region.
+#   Draw 1.2ha region.
 #------------------------------------------------------------------------------
 draw.1.2ha <- function(xmin, xmax, ymin, ymax, ...) {
     rect(
@@ -175,7 +175,7 @@ draw.1.2ha <- function(xmin, xmax, ymin, ymax, ...) {
 
 
 #------------------------------------------------------------------------------
-#  Draw sub-quadrat region.
+#   Draw sub-quadrat region.
 #------------------------------------------------------------------------------
 draw.sq.legend <- function(xmin, xmax, ymin, ymax, ...) {
     for (i in 1:4) {
@@ -194,7 +194,7 @@ draw.sq.legend <- function(xmin, xmax, ymin, ymax, ...) {
 #------------------------------------------------------------------------------
 #' Fill quadrats
 #'
-#' Low-level graphic function fills quadrats specifyied by quadrat codes.
+#' Low-level graphic function fills quadrats specified by quadrat codes.
 #'
 #' @param Q quadrat codes.
 #' @param ... graphic parameters passed to \code{\link[graphics]{rect}}.
@@ -211,14 +211,15 @@ fill.q <- function(Q, ...) {
 #' Create a map of ogawa forest plot with colored quadrats
 #'
 #' @param Q
-#' quadrat codes to be filled.
+#'     quadrat codes to be filled.
 #' @param adds.sq.legend
-#' if TRUE, adds an legend for sub-quadrats.
+#'     if TRUE, adds an legend for sub-quadrats.
 #' @param draws.1.2ha
-#' if TRUE, draws the 1.2ha core plot region.
+#'     if TRUE, draws the 1.2ha core plot region.
 #' @param col fill color(s).
 #' @param ...
-#' graphic parameters passed to \code{\link[graphics]{rect}} to draw quadrats.
+#'     graphic parameters passed to \code{\link[graphics]{rect}} to draw
+#'     quadrats.
 #'
 #' @export
 #------------------------------------------------------------------------------
