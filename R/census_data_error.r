@@ -142,3 +142,38 @@ resurrected <- function(x, ld_column, year_column) {
     return(FALSE)
 }
 
+
+#------------------------------------------------------------------------------
+#' Find multiple measurement
+#'
+#' Find multiple measurement for each ID in each year.
+#'
+#' @param census_data
+#'     a data.frame having census data.
+#' @param year_column
+#'     a character specifying the column name of year.
+#' @param deprecated_column
+#'     a character specifying the column name of deprecated records.
+#' @param id_columns
+#'     character vector specifying the name(s) of column(s) containing ID(s).
+#'
+#' @returns
+#'     A list having records of multiple measurements detected for each ID
+#'     specified as id_columns.
+#'
+#' @export
+#------------------------------------------------------------------------------
+find_multiple_measurements <- function(
+    census_data, year_column = "year", deprecated_column = "修正済み",
+    id_columns = c("stem_id", "tag_no", "Aタグ")
+) {
+    data <- omit_deprecated(census_data, deprecated_column)
+    result <- list()
+    for (i in id_columns) {
+        split_data <- split(data, data[c(year_column, i)])
+        duplicates <- subset(split_data, sapply(split_data, nrow) != 1)
+        result[[i]] <- do.call(rbind, duplicates)
+    }
+    return(result)
+}
+
