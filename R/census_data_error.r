@@ -177,3 +177,34 @@ find_multiple_measurements <- function(
     return(result)
 }
 
+
+#------------------------------------------------------------------------------
+#'  Find same tag on different stems
+#'
+#' @param census_data
+#'     a data.frame having census data.
+#' @param stem_id_column
+#'     a character specifying the column name of stem ID.
+#' @param tag_names
+#'     a character vector specifying the column names of tags.
+#' @param deprecated_column
+#'     a character specifying the column name of deprecated records.
+#'
+#' @export
+#------------------------------------------------------------------------------
+find_tags_on_different_stems <- function(
+    census_data, stem_id_column = "stem_id", tag_names = c("tag_no", "Aタグ"),
+    deprecated_column = "修正済み"
+) {
+    data <- omit_deprecated(census_data, deprecated_column)
+    result <- list()
+    for (i in tag_names) {
+        split_by_tag <- split(data, data[[i]])
+        on_different_stem <- sapply(
+            split_by_tag, function(x) length(unique(x[[stem_id_column]])) != 1
+        )
+        result[[i]] <- split_by_tag[on_different_stem]
+    }
+    return(result)
+}
+
