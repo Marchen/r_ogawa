@@ -6,6 +6,6 @@
 #' @export
 #------------------------------------------------------------------------------
 is_valid_1cm_tag <- function(tag_no) {
-    re_atag <- "^A[0-9]{7}$"
-    return(grepl(re_atag, tag_no))
+    re_a_tag <- "^A[0-9]{7}$"
+    return(grepl(re_a_tag, tag_no))
 }
