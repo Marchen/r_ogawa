@@ -75,3 +75,70 @@ is_unknown_with_measurements <- function(
     has_data <- any(unlist(sapply(current_data[measurements], not_na)))
     return(has_unknown & has_data)
 }
+
+
+#------------------------------------------------------------------------------
+#' Find resurrected stems
+#'
+#' Find resurrected stems, i.e., L -> U -> L or L -> D -> L.
+#'
+#' @param census_data
+#'     a data.frame having census data.
+#' @param stem_id_column
+#'     a character specifying the column name of stem ID.
+#' @param deprecated_column
+#'     a character specifying the column name of deprecated records.
+#' @param ld_column
+#'     a character specifying the column name of alive/dead/unknown status.
+#' @param year_column
+#'     a character specifying the column name of year.
+#'
+#' @return
+#'    a list of data.frames for resurrected stems.
+#'
+#' @export
+#------------------------------------------------------------------------------
+find_resurrection <- function(
+    census_data, stem_id_column = "stem_id", deprecated_column = "修正済み",
+    ld_column = "ld", year_column = "year"
+) {
+    data <- omit_deprecated(census_data, deprecated_column)
+    data_split <- split(data, data[[stem_id_column]])
+    result <- data_split[
+        sapply(
+            data_split, resurrected, ld_column = ld_column,
+            year_column = year_column
+        )
+    ]
+    return(result)
+}
+
+
+#------------------------------------------------------------------------------
+#   (Internal) Is the stem resurrected?
+#
+#   @param x census_data of a stem.
+#   @param ld_column
+#       a character specifying the column name of alive/dead/unknown status.
+#   @param year_column
+#       a character specifying the column name of year.
+#
+#   @return
+#       logical, returns TRUE if the stem resurrected.
+#------------------------------------------------------------------------------
+resurrected <- function(x, ld_column, year_column) {
+    x <- x[order(x[[year_column]]), ]
+    dead <- FALSE
+    for (i in x[[ld_column]]) {
+        if (!is.na(i)) {
+            if (i %in% c("U", "D")) {
+                dead <- TRUE
+            }
+            if (i == "L" && dead) {
+                return(TRUE)
+            }
+        }
+    }
+    return(FALSE)
+}
+
