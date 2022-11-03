@@ -21,6 +21,7 @@
 #' @return
 #'     a data.frame having records of stems having both unknown and
 #'     measurements in a year.
+#'     Returns NULL if no record was detected.
 #'
 #' @export
 #------------------------------------------------------------------------------
