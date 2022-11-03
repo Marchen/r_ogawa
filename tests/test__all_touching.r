@@ -1,8 +1,6 @@
-testthat::context("Test all_touching()")
-
 #------------------------------------------------------------------------------
 testthat::test_that(
-    "Test for two Qs", {
+    "Test all_touching(): two Qs", {
         # Adjacent Qs.
         testthat::expect_true(
             ogawa::all_touching("A1a1", "A1a2", corner = TRUE)
@@ -29,7 +27,7 @@ testthat::test_that(
 
 #------------------------------------------------------------------------------
 testthat::test_that(
-    "Test for three Qs", {
+    "Test all_touching(): three Qs", {
         # Adjacent Qs.
         testthat::expect_true(
             ogawa::all_touching("A1a1", "A1a2", "A1a3", corner = TRUE)
