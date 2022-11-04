@@ -30,6 +30,7 @@ find_unknown_with_measurements <- function(
     deprecated_column = "修正済み", year_column = "year", unknown_code = "U",
     measurements = c("gbh", "cls")
 ) {
+    census_data[["$__index__$"]] <- seq_along(census_data[[stem_id_column]])
     split_data <- split(
         census_data, census_data[c(stem_id_column, year_column)], drop = TRUE
     )
@@ -73,7 +74,16 @@ is_unknown_with_measurements <- function(
     has_unknown <- unknown_code %in% census_data[[ld_column]]
     not_na <- function(x) !is.na(x)
     has_data <- any(unlist(sapply(current_data[measurements], not_na)))
-    return(has_unknown & has_data)
+    # Ignore distant rows (to omit unknown caused by wrong quadrat code).
+    if (nrow(census_data) == 1) {
+        is_continuous_rows <- TRUE
+    } else {
+        is_continuous_rows <- (
+            max(dist(census_data[["$__index__$"]]))
+            == (nrow(census_data) - 1)
+        )
+    }
+    return(has_unknown & has_data & is_continuous_rows)
 }
 
 
