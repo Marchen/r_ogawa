@@ -61,5 +61,26 @@ testthat::test_that(
         testthat::expect_true(
             is.null(r), "Unknown in deprecated row, but no measurements."
         )
+        #----------------------------------------------------------------------
+        #   Test for unknowns for distant rows.
+        #   This should not be detected because duplicated measurements of a
+        #   stem observed in different quadrats can be caused by measurements
+        #   with unknown (usually caused by wrong quadrat code in data) and
+        #   correct measurements in other quadrat in a year.
+        #----------------------------------------------------------------------
+        test_data <- data.frame(
+            year = rep(2022, 3),
+            stem_id = c(1, 2, 1),
+            ld = c("L", "L", "U"),
+            gbh = c(15, 15, NA),
+            cls = c("CAN", "CAN", NA),
+            deprecated = c(NA, NA, NA)
+        )
+        r <- ogawa::find_unknown_with_measurements(
+            test_data, deprecated_column = "deprecated"
+        )
+        testthat::expect_true(
+            is.null(r), "Unknown at not continuous rows."
+        )
     }
 )
