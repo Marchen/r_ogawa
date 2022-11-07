@@ -440,3 +440,31 @@ is_in <- function(
     y <- ymin <= r$y1 & ymin <= r$y2 & r$y1 <= ymax & r$y2 <= ymax
     return(x & y)
 }
+
+
+#------------------------------------------------------------------------------
+#' Validate coordinates
+#'
+#' @param  sq2 last digit of quadrat code.
+#' @param  x x-coordinate.
+#' @param  y y coordinate.
+#'
+#' @return TRUE if the coordinate is not valid.
+#'
+#' @export
+#------------------------------------------------------------------------------
+invalid_xy <- function(sq2, x, y) {
+    result <- (
+        (sq2 == 1 & (x > 5 | y < 5))
+        | (sq2 == 2 & (x < 5 | y < 5))
+        | (sq2 == 3 & (x > 5 | y > 5))
+        | (sq2 == 4 & (x < 5 | y > 5))
+    )
+    return(result)
+}
+
+
+#' @export
+rc_to_coord <- function(row, column) {
+    return(list(x = (column - 1) * 10, y = 200 - (row - 1) * 10))
+}
