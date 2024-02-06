@@ -228,6 +228,31 @@ point_q <- function(Q, jitter = FALSE, ...) {
         return()
     }
     xy <- as.data.frame(q_to_point(Q, pos = "center"))
+    point_xy(Q, xy, jitter, ...)
+}
+
+
+#------------------------------------------------------------------------------
+#' Draw row and column as points with/without jitter.
+#'
+#' @param R row.
+#' @param C column.
+#' @param jitter if TRUE, add jitter for coordinates of overlapping points.
+#' @param ... graphic parameters passed to \code{\link[graphics]{points}}.
+#'
+#' @export
+#' @importFrom graphics points
+#------------------------------------------------------------------------------
+point_rc <- function(R, C, jitter = FALSE, ...) {
+    xy <- rc_to_coord(R, C)
+    point_xy(paste(R, C, sep = "-"), xy, jitter, ...)
+}
+
+
+#------------------------------------------------------------------------------
+#   Draw points with/without jitter
+#------------------------------------------------------------------------------
+point_xy <- function(Q, xy, jitter, ...) {
     if (jitter) {
         xy$duplicated <- Q %in% Q[duplicated(Q)]
         xy$x <- ifelse(xy$duplicated, jitter(xy$x, factor = 1.1), xy$x)
