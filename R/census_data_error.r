@@ -222,3 +222,66 @@ find_tags_on_different_stems <- function(
     return(result)
 }
 
+
+#------------------------------------------------------------------------------
+#' Find excess dead records
+#'
+#' Find stems having dead/unknown records >3 (1.2ha) or 2> (6ha).
+#'
+#' @param census_data
+#'     a data.frame having census data.
+#' @param stem_id_column
+#'     a character specifying the column name of stem ID.
+#' @param deprecated_column
+#'     a character specifying the name of the column having flags
+#'     of deprecated records.
+#' @param ld_column
+#'     a character specifying the name of the column alive/dead/unknown
+#'     status.
+#' @param q_column
+#'     a character specifying the name of the quadrat data.
+#' @param gbh_column
+#'     a character specifying the name of the gbh data.
+#'
+#' @return
+#'     list of data.frames for stems with excess dead records.
+#' @export
+#------------------------------------------------------------------------------
+find_excess_dead_records <- function(
+    census_data, stem_id_column = "stem_id", deprecated_column = "修正済み",
+    ld_column = "ld", q_column = "Q", gbh_column = "gbh"
+) {
+    data <- omit_deprecated(census_data, deprecated_column)
+    data_split <- split(data, data[[stem_id_column]])
+    result <- data_split[
+        sapply(
+            data_split, has_excess_dead_record, ld_column = ld_column,
+            q_column = q_column, gbh_column = gbh_column
+        )
+    ]
+    return(result)
+}
+
+
+#------------------------------------------------------------------------------
+#   (Internal) Check the stem has excess dead records
+#
+#   @param data
+#       census data of a stem.
+#   @param ld_column
+#       a character specifying the name of the column alive/dead/unknown
+#       status.
+#   @param q_column
+#       a character specifying the name of the quadrat data.
+#   @param gbh_column
+#       a character specifying the name of the gbh data.
+#
+#   @return
+#       TRUE if the stem has excess dead records.
+#------------------------------------------------------------------------------
+has_excess_dead_record <- function(data, ld_column, q_column, gbh_column) {
+    threshold <- ifelse(
+        is_core(data[[q_column]][[1]]) & any(!is.na(data[[gbh_column]])), 3, 2
+    )
+    return(nrow(data[data[[ld_column]] %in% c(NA, "D", "U"), ]) > threshold)
+}
