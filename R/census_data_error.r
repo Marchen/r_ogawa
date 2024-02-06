@@ -102,6 +102,8 @@ is_unknown_with_measurements <- function(
 #'     a character specifying the column name of alive/dead/unknown status.
 #' @param year_column
 #'     a character specifying the column name of year.
+#' @param census_column
+#'     a character specifying the column name of census date.
 #'
 #' @return
 #'    a list of data.frames for resurrected stems.
@@ -110,14 +112,14 @@ is_unknown_with_measurements <- function(
 #------------------------------------------------------------------------------
 find_resurrection <- function(
     census_data, stem_id_column = "stem_id", deprecated_column = "修正済み",
-    ld_column = "ld", year_column = "year"
+    ld_column = "ld", year_column = "year", census_column = "s_date"
 ) {
     data <- omit_deprecated(census_data, deprecated_column)
     data_split <- split(data, data[[stem_id_column]])
     result <- data_split[
         sapply(
             data_split, resurrected, ld_column = ld_column,
-            year_column = year_column
+            year_column = year_column, census_column = census_column
         )
     ]
     return(result)
@@ -132,12 +134,14 @@ find_resurrection <- function(
 #       a character specifying the column name of alive/dead/unknown status.
 #   @param year_column
 #       a character specifying the column name of year.
+#   @param census_column
+#       a character specifying the column name of census date.
 #
 #   @return
 #       logical, returns TRUE if the stem resurrected.
 #------------------------------------------------------------------------------
-resurrected <- function(x, ld_column, year_column) {
-    x <- x[order(x[[year_column]]), ]
+resurrected <- function(x, ld_column, year_column, census_column) {
+    x <- x[order(x[[year_column]], x[[census_column]]), ]
     dead <- FALSE
     for (i in x[[ld_column]]) {
         if (!is.na(i)) {
