@@ -213,9 +213,16 @@ fill_q <- function(Q, ...) {
 
 
 #------------------------------------------------------------------------------
-#   Draw quadrats as points with/without jitter.
+#' Draw quadrats as points with/without jitter.
+#'
+#' @param Q quadrat codes.
+#' @param jitter if TRUE, add jitter for coordinates of overlapping points.
+#' @param ... graphic parameters passed to \code{\link[graphics]{points}}.
+#'
+#' @export
+#' @importFrom graphics points
 #------------------------------------------------------------------------------
-point_q <- function(Q, jitter, ...) {
+point_q <- function(Q, jitter = FALSE, ...) {
     Q <- na.omit(Q)
     if (length(Q) > 0) {
         return()
