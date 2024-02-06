@@ -2,20 +2,22 @@
 % Please edit documentation in R/utils.r
 \name{touches}
 \alias{touches}
-\title{Check if the plot pairs touch each other}
+\title{Check if quadrat pairs touch each other}
 \usage{
-touches(q1, q2)
+touches(q1, q2, corner = FALSE)
 }
 \arguments{
-\item{q1}{quadrat codes, should have equal length with q2.}
+\item{q1}{quadrat codes, having length of one, or equal length with q2.}
 
-\item{q2}{quadrat codes, should have equal length with q1.}
+\item{q2}{quadrat codes, having length of one, or equal length with q1.}
+
+\item{corner}{if TRUE, quadrats touch only at their corners also treated as touched.}
 }
 \value{
-Returns TRUE if the two plots touch each other and FALSE if are not.
+Returns TRUE if the two plots touch each other and FALSE if do not.
 }
 \description{
-Check if the plot pairs touch each other
+Check if quadrat pairs touch each other
 }
 \examples{
 q1 <- c("A1a2", "A1a2", "A1a1")
