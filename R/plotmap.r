@@ -203,6 +203,10 @@ draw_sq_legend <- function(xmin, xmax, ymin, ymax, ...) {
 #' @importFrom graphics rect
 #------------------------------------------------------------------------------
 fill_q <- function(Q, ...) {
+    Q <- na.omit(Q)
+    if (length(Q) > 0) {
+        return()
+    }
     r <- q_to_rect(Q)
     rect(r$x1, r$y1, r$x2, r$y2, ...)
 }
@@ -212,6 +216,10 @@ fill_q <- function(Q, ...) {
 #   Draw quadrats as points with/without jitter.
 #------------------------------------------------------------------------------
 point_q <- function(Q, jitter, ...) {
+    Q <- na.omit(Q)
+    if (length(Q) > 0) {
+        return()
+    }
     xy <- as.data.frame(q_to_point(Q, pos = "center"))
     if (jitter) {
         xy$duplicated <- Q %in% Q[duplicated(Q)]
@@ -255,12 +263,15 @@ create_quadrat_map <- function(
     if (contour) {
         draw_contour()
     }
+    on.exit(add_grid(x, adds_sq_legend, draws_1_2ha))
+    if (missing(Q)) {
+        return()
+    }
     if (type == "rect") {
         fill_q(Q, col = col, ...)
     } else {
         point_q(Q, jitter = jitter, col = col, ...)
     }
-    add_grid(x, adds_sq_legend, draws_1_2ha)
 }
 
 
