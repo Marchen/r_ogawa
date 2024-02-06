@@ -238,7 +238,7 @@ point_q <- function(Q, jitter, ...) {
 #'     if "rect", draws filled rectangular for each quadrat.
 #'     If "point", draws points for each quadrat.
 #' @param jitter
-#'     if TRUE, add jitter for coordinates of the points.
+#'     if TRUE, add jitter for coordinates of overlapping points.
 #'     Ignored when type is "rect".
 #' @param ...
 #'     graphic parameters passed to \code{\link[graphics]{rect}} to draw
