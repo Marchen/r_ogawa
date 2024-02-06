@@ -30,7 +30,7 @@ create_quadrat_map(
 if "rect", draws filled rectangular for each quadrat.
 If "point", draws points for each quadrat.}
 
-\item{jitter}{if TRUE, add jitter for coordinates of the points.
+\item{jitter}{if TRUE, add jitter for coordinates of overlapping points.
 Ignored when type is "rect".}
 
 \item{...}{graphic parameters passed to \code{\link[graphics]{rect}} to draw
