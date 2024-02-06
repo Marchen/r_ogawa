@@ -67,7 +67,7 @@ find_unknown_with_measurements <- function(
 is_unknown_with_measurements <- function(
     census_data, ld_column, deprecated_column, unknown_code, measurements
 ) {
-    current_data <- census_data[is.na(census_data[[deprecated_column]]), ]
+    current_data <- omit_deprecated(census_data, deprecated_column)
     if (nrow(current_data) == 0) {
         return(FALSE)
     }
