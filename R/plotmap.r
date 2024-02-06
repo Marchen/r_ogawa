@@ -209,6 +209,20 @@ fill_q <- function(Q, ...) {
 
 
 #------------------------------------------------------------------------------
+#   Draw quadrats as points with/without gitter.
+#------------------------------------------------------------------------------
+point_q <- function(Q, jitter, ...) {
+    xy <- as.data.frame(q_to_point(Q, pos = "center"))
+    if (jitter) {
+        xy$duplicated <- Q %in% Q[duplicated(Q)]
+        xy$x <- ifelse(xy$duplicated, jitter(xy$x, factor = 1.1), xy$x)
+        xy$y <- ifelse(xy$duplicated, jitter(xy$y, factor = 1.1), xy$y)
+    }
+    points(xy$x, xy$y, ...)
+}
+
+
+#------------------------------------------------------------------------------
 #' Create a map of ogawa forest plot with colored quadrats
 #'
 #' @param Q
@@ -220,6 +234,12 @@ fill_q <- function(Q, ...) {
 #' @param contour
 #'     if TRUE, draw contour.
 #' @param col fill color(s).
+#' @param type = c("rect", "point")
+#'     if "rect", draws filled rectangular for each quadrat.
+#'     If "point", draws points for each quadrat.
+#' @param jitter
+#'     if TRUE, add jitter for coordinates of the points.
+#'     Ignored when type is "rect".
 #' @param ...
 #'     graphic parameters passed to \code{\link[graphics]{rect}} to draw
 #'     quadrats.
@@ -228,13 +248,18 @@ fill_q <- function(Q, ...) {
 #------------------------------------------------------------------------------
 create_quadrat_map <- function(
     Q, adds_sq_legend = TRUE, draws_1_2ha = TRUE, contour = FALSE,
-    col = rgb(1, 0, 0, 0.5), ...
+    col = rgb(1, 0, 0, 0.5), type = c("rect", "point"), jitter = FALSE, ...
 ) {
+    type <- match.arg(type)
     x <- create_ogawa_plot()
     if (contour) {
         draw_contour()
     }
-    fill_q(Q, col = col, ...)
+    if (type == "rect") {
+        fill_q(Q, col = col, ...)
+    } else {
+        point_q(Q, jitter = jitter, col = col, ...)
+    }
     add_grid(x, adds_sq_legend, draws_1_2ha)
 }
 
