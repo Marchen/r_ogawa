@@ -209,7 +209,7 @@ fill_q <- function(Q, ...) {
 
 
 #------------------------------------------------------------------------------
-#   Draw quadrats as points with/without gitter.
+#   Draw quadrats as points with/without jitter.
 #------------------------------------------------------------------------------
 point_q <- function(Q, jitter, ...) {
     xy <- as.data.frame(q_to_point(Q, pos = "center"))
