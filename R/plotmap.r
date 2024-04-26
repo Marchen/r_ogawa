@@ -204,7 +204,7 @@ draw_sq_legend <- function(xmin, xmax, ymin, ymax, ...) {
 #------------------------------------------------------------------------------
 fill_q <- function(Q, ...) {
     Q <- na.omit(Q)
-    if (length(Q) > 0) {
+    if (length(Q) == 0) {
         return()
     }
     r <- q_to_rect(Q)
