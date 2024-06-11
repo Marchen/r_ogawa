@@ -146,8 +146,8 @@ construct_q <- function(Q1, Q2, SQ1, SQ2) {
 #' @seealso \code{\link{q_to_y}}
 #' @export
 #------------------------------------------------------------------------------
-q_to_x <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
-    if (missing(Q) & is.null(Q1)) {
+q_to_x <- function(Q, Q1, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+    if (missing(Q) & missing(Q1)) {
         stop("Needs specifying Q or Q1")
     }
     if (!missing(Q)) {
@@ -187,8 +187,8 @@ q_to_x <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
 #' @seealso \code{\link{q_to_x}}
 #' @export
 #------------------------------------------------------------------------------
-q_to_y <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
-    if (missing(Q) & is.null(Q2)) {
+q_to_y <- function(Q, Q1 = NA, Q2, SQ1 = NA, SQ2 = NA) {
+    if (missing(Q) & missing(Q2)) {
         stop("Needs specifying Q or Q2")
     }
     if (!missing(Q)) {
