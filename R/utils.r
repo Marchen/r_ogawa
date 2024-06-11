@@ -207,6 +207,7 @@ q_to_y <- function(Q, Q1 = NA, Q2, SQ1 = NA, SQ2 = NA) {
     return(y)
 }
 
+
 #------------------------------------------------------------------------------
 #' Convert quadrat codes to coordinates of points
 #'
@@ -251,6 +252,7 @@ q_to_point <- function(
     )
     return(list(x = x, y = y))
 }
+
 
 #------------------------------------------------------------------------------
 #' Convert quadrat code to coordinates of rectangular for the quadrat
