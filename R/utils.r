@@ -285,6 +285,56 @@ q_to_rect <- function(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 
 
 #------------------------------------------------------------------------------
+#' Convert x coordinate within a quadrat to global quadrat within the plot
+#'
+#' @param x x coordinate within a quadrat.
+#' @param Q vector of quadrat code(s).
+#' @param Q1 vector of capital alphabet part of quadrat code.
+#' @param Q2 vector of first numerical part of quadrat code.
+#' @param SQ1 vector of lower alphabet part of quadrat code.
+#' @param SQ2 vector of second numerical part of quadrat code.
+#'
+#' @return vector of x coordinates. When x is NA, returns center of the quadrat.
+#'
+#' @export
+#------------------------------------------------------------------------------
+to_plot_x <- function(x, Q, Q1, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+    quadrat_center <- q_to_point(Q, Q1, Q2, SQ1, SQ2, "center")
+    if (!missing(Q)) {
+        Q1 <- q_to_elements(Q)$Q1
+        SQ1 <- q_to_elements(Q)$SQ1
+    }
+    x <- ifelse(is.na(x), quadrat_center$x, q_to_x(Q1 = Q1, SQ1 = SQ1) + x)
+    return(x)
+}
+
+
+#------------------------------------------------------------------------------
+#' Convert y coordinate within a quadrat to global quadrat within the plot
+#'
+#' @param y y coordinate within a quadrat.
+#' @param Q vector of quadrat code(s).
+#' @param Q1 vector of capital alphabet part of quadrat code.
+#' @param Q2 vector of first numerical part of quadrat code.
+#' @param SQ1 vector of lower alphabet part of quadrat code.
+#' @param SQ2 vector of second numerical part of quadrat code.
+#'
+#' @return vector of y coordinates. When y is NA, returns center of the quadrat.
+#'
+#' @export
+#------------------------------------------------------------------------------
+to_plot_y <- function(y, Q, Q1, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+    quadrat_center <- q_to_point(Q, Q1, Q2, SQ1, SQ2, "center")
+    if (!missing(Q)) {
+        Q2 <- q_to_elements(Q)$Q2
+        SQ1 <- q_to_elements(Q)$SQ1
+    }
+    y <- ifelse(is.na(y), quadrat_center$y, q_to_y(Q2 = Q2, SQ1 = SQ1) + y)
+    return(y)
+}
+
+
+#------------------------------------------------------------------------------
 #' Check if quadrat pairs touch each other
 #'
 #' @param q1
