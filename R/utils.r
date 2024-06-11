@@ -145,7 +145,6 @@ q_to_x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
     if (!missing(Q)) {
         params <- q_to_elements(Q)
         Q1 <- params$Q1
-        Q2 <- params$Q2
         SQ1 <- params$SQ1
         SQ2 <- params$SQ2
     }
@@ -180,7 +179,6 @@ q_to_x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 q_to_y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
     if (!missing(Q)) {
         params <- q_to_elements(Q)
-        Q1 <- params$Q1
         Q2 <- params$Q2
         SQ1 <- params$SQ1
         SQ2 <- params$SQ2
