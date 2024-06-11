@@ -10,7 +10,7 @@ standardize_q(Q)
 \item{Q}{vector of quadrat code.}
 }
 \value{
-a character vector of quadrate code(s).
+a character vector of quadrat code(s).
 }
 \description{
 Convert quadrat code(s) in the A1a1 format to the A01a1 format.

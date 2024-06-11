@@ -330,3 +330,37 @@ load_contour <- function() {
     return(map_image[, ncol(map_image):0, 1, 1])
 }
 load_contour <- memoise::memoise(load_contour)
+
+
+#------------------------------------------------------------------------------
+#' Create a map of ogawa forest plot with points
+#'
+#' @param x x coordinates.
+#' @param y y coordinates.
+#' @param adds_sq_legend
+#'     if TRUE, adds an legend for sub-quadrats.
+#' @param draws_1_2ha
+#'     if TRUE, draws the 1.2ha core plot region.
+#' @param contour
+#'     if TRUE, draw contour.
+#' @param col fill color(s).
+#' @param ...
+#'     graphic parameters passed to \code{\link[graphics]{rect}} to draw
+#'     quadrats.
+#'
+#' @export
+#------------------------------------------------------------------------------
+create_point_map <- function(
+    x, y, adds_sq_legend = TRUE, draws_1_2ha = TRUE, contour = FALSE,
+    col = rgb(1, 0, 0, 0.5), ...
+) {
+    p <- create_ogawa_plot()
+    if (contour) {
+        draw_contour()
+    }
+    on.exit(add_grid(p, adds_sq_legend, draws_1_2ha))
+    if (missing(x) | missing(y)) {
+        return()
+    }
+    points(x, y, col = col, ...)
+}

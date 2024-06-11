@@ -4,12 +4,13 @@
 \alias{q_to_y}
 \title{Convert quadrat codes to y coordinates}
 \usage{
-q_to_y(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA)
+q_to_y(Q, Q1 = NA, Q2, SQ1 = NA, SQ2 = NA)
 }
 \arguments{
 \item{Q}{vector of quadrat code(s).}
 
-\item{Q1}{vector of capital alphabet part of quadrat code.}
+\item{Q1}{vector of capital alphabet part of quadrat code.
+Can be specified for intuitiveness, but not used for any calculation.}
 
 \item{Q2}{vector of first numerical part of quadrat code.}
 
@@ -21,8 +22,10 @@ q_to_y(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA)
 a vector of y-coordinates.
 }
 \description{
-Convert quadrat codes to y coordinates of top-right of the quadrats.
+Convert quadrat codes to y coordinates of bottom-left of the quadrats.
+When SQ2 is not specified, returns coordinates of 10m grid.
+When SQ1 is not specified, returns coordinates of 20m grid.
 }
 \seealso{
-\code{\link{q.to.x}}
+\code{\link{q_to_x}}
 }
