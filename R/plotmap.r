@@ -46,7 +46,7 @@ create_ogawa_plot <- function(
 
 
 #------------------------------------------------------------------------------
-#   Create ogawa.plot object.
+#   Create ogawa_plot object.
 #------------------------------------------------------------------------------
 create_object <- function(xmin, xmax, ymin, ymax, label_pos_x, label_pos_y) {
     mod5 <- function(x) x - (x %% 5)
