@@ -149,7 +149,7 @@ construct_q <- function(Q1, Q2, SQ1, SQ2) {
 #'
 #' @return a vector of x-coordinates.
 #'
-#' @seealso \code{\link{q.to.y}}
+#' @seealso \code{\link{q_to_y}}
 #' @export
 #------------------------------------------------------------------------------
 q_to_x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
@@ -185,7 +185,7 @@ q_to_x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #'
 #' @return a vector of y-coordinates.
 #'
-#' @seealso \code{\link{q.to.x}}
+#' @seealso \code{\link{q_to_x}}
 #' @export
 #------------------------------------------------------------------------------
 q_to_y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
