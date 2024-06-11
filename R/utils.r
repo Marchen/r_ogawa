@@ -130,6 +130,8 @@ construct_q <- function(Q1, Q2, SQ1, SQ2) {
 #' Convert quadrat codes to x coordinates
 #'
 #' Convert quadrat codes to x coordinates of top-right of the quadrats.
+#' When SQ2 is not specified, returns coordinates of 10m grid.
+#' When SQ1 is not specified, returns coordinates of 20m grid.
 #'
 #' @param Q vector of quadrat code(s).
 #' @param Q1 vector of capital alphabet part of quadrat code.
@@ -169,6 +171,8 @@ q_to_x <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
 #' Convert quadrat codes to y coordinates
 #'
 #' Convert quadrat codes to y coordinates of top-right of the quadrats.
+#' When SQ2 is not specified, returns coordinates of 10m grid.
+#' When SQ1 is not specified, returns coordinates of 20m grid.
 #'
 #' @param Q vector of quadrat code(s).
 #' @param Q1
