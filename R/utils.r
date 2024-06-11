@@ -46,17 +46,6 @@ is_core <- function(Q, invalid = NA) {
     return(result)
 }
 
-#------------------------------------------------------------------------------
-#' @export
-#------------------------------------------------------------------------------
-is.core <- function(Q, invalid = NA) {
-    warning(
-        "is.core() was deprecated and will be removed in future version.",
-        "Use is_core() instead."
-    )
-    return(is_core(Q, invalid))
-}
-
 
 #------------------------------------------------------------------------------
 #' Validate quadrat codes
