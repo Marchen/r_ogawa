@@ -192,8 +192,11 @@ q_to_y <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
         SQ2 <- params$SQ2
     }
     sq1 <- c(a = 0, b = 0, c = 1, d = 1)
-    y <- 200 - (Q2 - 1) * 20 - sq1[SQ1] * 10
-    y <- y - ifelse(is.na(SQ2), 0, (floor((SQ2 - 1) / 2) * 5))
+    y <- (
+        200 - (Q2 - 1) * 20
+        - sq1[SQ1] * 10
+        - ifelse(is.na(SQ2), 0, (floor((SQ2 - 1) / 2) * 5))
+    )
     names(y) <- NULL
     return(y)
 }
