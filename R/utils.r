@@ -154,8 +154,10 @@ q_to_x <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
         SQ1 <- params$SQ1
         SQ2 <- params$SQ2
     }
+    q1 <- -1:14
+    names(q1) <- c("Z", LETTERS[1:15])
     x <- (
-        (as.integer(sapply(Q1, charToRaw)) - 65) * 20
+        q1[Q1] * 20
         + ifelse(SQ1 %in% c("a", "c"), 0, 1) * 10
         + ifelse(!is.na(SQ2), (SQ2 - 1) %% 2 + 1, 2) * 5
     )
@@ -194,7 +196,7 @@ q_to_y <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
     sq1 <- c(a = 0, b = 0, c = 1, d = 1)
     y <- (
         200 - (Q2 - 1) * 20
-        - sq1[SQ1] * 10
+        - ifelse(is.na(SQ1), 0, sq1[SQ1] * 10)
         - ifelse(is.na(SQ2), 0, (floor((SQ2 - 1) / 2) * 5))
     )
     names(y) <- NULL
