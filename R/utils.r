@@ -99,6 +99,7 @@ q_to_elements <- function(Q) {
     Q1 <- gsub(Q_REGEXP, "\\1", Q)
     Q2 <- as.integer(gsub(Q_REGEXP, "\\2", Q))
     SQ1 <- gsub(Q_REGEXP, "\\3", Q)
+    SQ1[SQ1 == ""] <- NA
     SQ2 <- as.integer(gsub(Q_REGEXP, "\\4", Q))
     return(list(Q1 = Q1, Q2 = Q2, SQ1 = SQ1, SQ2 = SQ2))
 }
