@@ -145,6 +145,7 @@ construct_q <- function(Q1, Q2, SQ1, SQ2) {
 #'
 #' @seealso \code{\link{q_to_y}}
 #' @export
+#' @importFrom stats setNames
 #------------------------------------------------------------------------------
 q_to_x <- function(Q, Q1, Q2 = NA, SQ1 = NA, SQ2 = NA) {
     if (missing(Q) & missing(Q1)) {
