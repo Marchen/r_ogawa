@@ -129,7 +129,7 @@ construct_q <- function(Q1, Q2, SQ1, SQ2) {
 #------------------------------------------------------------------------------
 #' Convert quadrat codes to x coordinates
 #'
-#' Convert quadrat codes to x coordinates of top-right of the quadrats.
+#' Convert quadrat codes to x coordinates of bottom-left of the quadrats.
 #' When SQ2 is not specified, returns coordinates of 10m grid.
 #' When SQ1 is not specified, returns coordinates of 20m grid.
 #'
@@ -155,13 +155,15 @@ q_to_x <- function(Q, Q1, Q2 = NA, SQ1 = NA, SQ2 = NA) {
         Q1 <- params$Q1
         SQ1 <- params$SQ1
         SQ2 <- params$SQ2
+    } else {
+        SQ2 <- as.integer(SQ2)
     }
-    q1 <- -1:14
-    names(q1) <- c("Z", LETTERS[1:15])
-    x <- (
+    q1 <- setNames(-1:14, LETTERS[c(26, 1:15)])
+    sq2 <- c(0, 5, 0, 5)
+    x <- unname(
         q1[Q1] * 20
-        + ifelse(SQ1 %in% c("a", "c"), 0, 1) * 10
-        + ifelse(!is.na(SQ2), (SQ2 - 1) %% 2 + 1, 2) * 5
+        + ifelse(SQ1 %in% c("a", "c", NA), 0, 10)
+        + ifelse(!is.na(SQ2), sq2[SQ2], 0)
     )
     return(x)
 }
@@ -170,7 +172,7 @@ q_to_x <- function(Q, Q1, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #------------------------------------------------------------------------------
 #' Convert quadrat codes to y coordinates
 #'
-#' Convert quadrat codes to y coordinates of top-right of the quadrats.
+#' Convert quadrat codes to y coordinates of bottom-left of the quadrats.
 #' When SQ2 is not specified, returns coordinates of 10m grid.
 #' When SQ1 is not specified, returns coordinates of 20m grid.
 #'
@@ -197,13 +199,13 @@ q_to_y <- function(Q, Q1 = NA, Q2, SQ1 = NA, SQ2 = NA) {
         SQ1 <- params$SQ1
         SQ2 <- params$SQ2
     }
-    sq1 <- c(a = 0, b = 0, c = 1, d = 1)
-    y <- (
-        200 - (Q2 - 1) * 20
-        - ifelse(is.na(SQ1), 0, sq1[SQ1] * 10)
-        - ifelse(is.na(SQ2), 0, (floor((SQ2 - 1) / 2) * 5))
+    sq1 <- c(a = 10, b = 10, c = 0, d = 0)
+    sq2 <- c(5, 5, 0, 0)
+    y <- unname(
+        200 - Q2 * 20
+        + ifelse(is.na(SQ1), 0, sq1[SQ1])
+        + ifelse(is.na(SQ2), 0, sq2[SQ2])
     )
-    names(y) <- NULL
     return(y)
 }
 
@@ -237,14 +239,15 @@ q_to_point <- function(
     y <- q_to_y(Q, Q1, Q2, SQ1, SQ2)
     pos <- match.arg(pos)
     if (!missing(Q)) {
+        SQ1 <- q_to_elements(Q)$SQ1
         SQ2 <- q_to_elements(Q)$SQ2
     }
-    shift <- ifelse(is.na(SQ2), 10, 5)
-    x <- x - switch(
+    shift <- ifelse(is.na(SQ1), 20, ifelse(is.na(SQ2), 10, 5))
+    x <- x + switch(
         pos, center = shift / 2, topleft = shift, topright = 0,
         bottomleft = shift, bottomright = 0
     )
-    y <- y - switch(
+    y <- y + switch(
         pos, center = shift / 2, topleft = 0, topright = 0,
         bottomleft = shift, bottomright = shift
     )
@@ -260,7 +263,9 @@ q_to_point <- function(
 #' @param SQ1 vector of lower alphabet part of quadrat code.
 #' @param SQ2 vector of second numerical part of quadrat code.
 #'
-#' @return list of coordinates (x1, x2, y1, y2) for the rectangular.
+#' @return
+#'     list of coordinates (x1, y1, x2, y2) for the rectangular,
+#'     where (x1, y1) is bottom-left, (x2, y2) is top-right.
 #'
 #' @export
 #------------------------------------------------------------------------------
@@ -268,10 +273,12 @@ q_to_rect <- function(Q = NA, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
     x1 <- q_to_x(Q, Q1, Q2, SQ1, SQ2)
     y1 <- q_to_y(Q, Q1, Q2, SQ1, SQ2)
     if (!missing(Q)) {
+        SQ1 <- q_to_elements(Q)$SQ1
         SQ2 <- q_to_elements(Q)$SQ2
     }
-    x2 <- x1 - ifelse(is.na(SQ2), 10, 5)
-    y2 <- y1 - ifelse(is.na(SQ2), 10, 5)
+    size <- ifelse(is.na(SQ1), 20, ifelse(is.na(SQ2), 10, 5))
+    x2 <- x1 + size
+    y2 <- y1 + size
     return(list(x1 = x1, x2 = x2, y1 = y1, y2 = y2))
 }
 
