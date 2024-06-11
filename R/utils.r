@@ -143,15 +143,15 @@ construct_q <- function(Q1, Q2, SQ1, SQ2) {
 #' @seealso \code{\link{q_to_y}}
 #' @export
 #------------------------------------------------------------------------------
-q_to_x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+q_to_x <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
+    if (missing(Q) & is.null(Q1)) {
+        stop("Needs specifying Q or Q1")
+    }
     if (!missing(Q)) {
         params <- q_to_elements(Q)
         Q1 <- params$Q1
         SQ1 <- params$SQ1
         SQ2 <- params$SQ2
-    }
-    if (any(is.na(c(Q1, Q2, SQ1)))) {
-        stop("Needs specifying Q or all of Q1, Q2, SQ1 (and SQ2)")
     }
     x <- (
         (as.integer(sapply(Q1, charToRaw)) - 65) * 20
@@ -180,15 +180,15 @@ q_to_x <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
 #' @seealso \code{\link{q_to_x}}
 #' @export
 #------------------------------------------------------------------------------
-q_to_y <- function(Q, Q1 = NA, Q2 = NA, SQ1 = NA, SQ2 = NA) {
+q_to_y <- function(Q, Q1 = NULL, Q2 = NULL, SQ1 = NULL, SQ2 = NULL) {
+    if (missing(Q) & is.null(Q2)) {
+        stop("Needs specifying Q or Q2")
+    }
     if (!missing(Q)) {
         params <- q_to_elements(Q)
         Q2 <- params$Q2
         SQ1 <- params$SQ1
         SQ2 <- params$SQ2
-    }
-    if (any(is.na(c(Q1, Q2, SQ1)))) {
-        stop("Needs specifying Q or all of Q1, Q2, SQ1 and SQ2")
     }
     sq1 <- c(a = 0, b = 0, c = 1, d = 1)
     y <- 200 - (Q2 - 1) * 20 - sq1[SQ1] * 10
