@@ -151,10 +151,9 @@ q_to_x <- function(Q, Q1, Q2 = NA, SQ1 = NA, SQ2 = NA) {
         stop("Needs specifying Q or Q1")
     }
     if (!missing(Q)) {
-        params <- q_to_elements(Q)
-        Q1 <- params$Q1
-        SQ1 <- params$SQ1
-        SQ2 <- params$SQ2
+        Q1 <- q_to_elements(Q)$Q1
+        SQ1 <- q_to_elements(Q)$SQ1
+        SQ2 <- q_to_elements(Q)$SQ2
     } else {
         SQ2 <- as.integer(SQ2)
     }
@@ -194,10 +193,9 @@ q_to_y <- function(Q, Q1 = NA, Q2, SQ1 = NA, SQ2 = NA) {
         stop("Needs specifying Q or Q2")
     }
     if (!missing(Q)) {
-        params <- q_to_elements(Q)
-        Q2 <- params$Q2
-        SQ1 <- params$SQ1
-        SQ2 <- params$SQ2
+        Q2 <- q_to_elements(Q)$Q2
+        SQ1 <- q_to_elements(Q)$SQ1
+        SQ2 <- q_to_elements(Q)$SQ2
     }
     sq1 <- c(a = 10, b = 10, c = 0, d = 0)
     sq2 <- c(5, 5, 0, 0)
