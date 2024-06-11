@@ -82,7 +82,7 @@ is_valid_q <- function(Q) {
 #'
 #' @param Q vector of quadrat code.
 #'
-#' @return a character vector of quadrate code(s).
+#' @return a character vector of quadrat code(s).
 #'
 #' @export
 #------------------------------------------------------------------------------
