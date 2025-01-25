@@ -168,6 +168,8 @@ resurrected <- function(x, ld_column, year_column, census_column) {
 #'     a character specifying the column name of year.
 #' @param deprecated_column
 #'     a character specifying the column name of deprecated records.
+#' @param census_type_column
+#'     a character specifying the column name of census type.
 #' @param id_columns
 #'     character vector specifying the name(s) of column(s) containing ID(s).
 #'
@@ -179,12 +181,13 @@ resurrected <- function(x, ld_column, year_column, census_column) {
 #------------------------------------------------------------------------------
 find_multiple_measurements <- function(
     census_data, year_column = "year", deprecated_column = "修正済み",
+    census_type_column = "調査種別",
     id_columns = c("stem_id", "tag_no", "Aタグ")
 ) {
     data <- omit_deprecated(census_data, deprecated_column)
     result <- list()
     for (i in id_columns) {
-        split_data <- split(data, data[c(year_column, i)])
+        split_data <- split(data, data[c(year_column, census_type_column, i)])
         duplicates <- subset(split_data, sapply(split_data, nrow) != 1)
         result[[i]] <- do.call(rbind, duplicates)
     }
