@@ -8,6 +8,7 @@ find_multiple_measurements(
   census_data,
   year_column = "year",
   deprecated_column = "修正済み",
+  census_type_column = "調査種別",
   id_columns = c("stem_id", "tag_no", "Aタグ")
 )
 }
@@ -17,6 +18,8 @@ find_multiple_measurements(
 \item{year_column}{a character specifying the column name of year.}
 
 \item{deprecated_column}{a character specifying the column name of deprecated records.}
+
+\item{census_type_column}{a character specifying the column name of census type.}
 
 \item{id_columns}{character vector specifying the name(s) of column(s) containing ID(s).}
 }
