@@ -527,3 +527,15 @@ invalid_xy <- function(sq2, x, y) {
 rc_to_coord <- function(row, column) {
     return(list(x = (column - 1) * 10, y = 200 - (row - 1) * 10))
 }
+
+#' @export
+rc_to_rect <- function(row, column, size = 10) {
+    center <- rc_to_coord(row, column)
+    r <- list(
+        xleft = center$x - size / 2,
+        ybottom =center$y - size / 2,
+        xright = center$x + size / 2,
+        ytop = center$y + size / 2
+    )
+    return(r)
+}
