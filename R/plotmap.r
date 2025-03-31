@@ -308,7 +308,9 @@ create_quadrat_map <- function(
 
 
 #------------------------------------------------------------------------------
-#   (Internal) Add contour
+#'   Add contour
+#'
+#' @export
 #------------------------------------------------------------------------------
 draw_contour <- function() {
     ogawa_contour <- load_contour()
