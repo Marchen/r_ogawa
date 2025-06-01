@@ -313,25 +313,15 @@ create_quadrat_map <- function(
 #' @export
 #------------------------------------------------------------------------------
 draw_contour <- function() {
-    ogawa_contour <- load_contour()
-    image(
-        ogawa_contour, col = c("black", "white"), useRaster = TRUE,
-        x = 300 * (0:nrow(ogawa_contour)) / nrow(ogawa_contour),
-        y = 200 * (0:ncol(ogawa_contour)) / ncol(ogawa_contour), add = TRUE
+    elevation <- read.csv(
+        system.file("elevation.csv", package = "ogawa"), header = FALSE
+    )
+    elevation <- t(as.matrix(elevation))[, nrow(elevation):1]
+    contour(
+        z = elevation, x = seq(0, 300, by = 10), y = seq(0, 200, by = 10),
+        add = TRUE, nlevels = 30, lwd = 0.5
     )
 }
-
-
-#------------------------------------------------------------------------------
-#   (Internal) Load contour image data
-#------------------------------------------------------------------------------
-load_contour <- function() {
-    map_image <- imager::load.image(
-        system.file("contour.png", package = "ogawa")
-    )
-    return(map_image[, ncol(map_image):0, 1, 1])
-}
-load_contour <- memoise::memoise(load_contour)
 
 
 #------------------------------------------------------------------------------
