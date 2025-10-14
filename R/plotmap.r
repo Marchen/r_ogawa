@@ -158,7 +158,9 @@ draw_labels <- function(
     y <- (ymin / 20 + 1):(ymax / 20)
     yl <- data.frame(
         x = xmin - adjust_x * label_pos_y[2],
-        y = ymax + 10 - 2 * y * 10 + ymin, labels = y, cex = 1.5, font = 2
+        y = ymax + 10 - 2 * y * 10 + ymin,
+        labels = ((200 - ymax) / 20 + 1):((200 - ymin) / 20), cex = 1.5,
+        font = 2
     )
     do.call(text, rbind(xs, xl, ys, yl))
 }
