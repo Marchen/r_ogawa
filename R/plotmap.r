@@ -139,8 +139,11 @@ draw_labels <- function(
     # X-axis label (small).
     x <- (xmin / 10):(xmax / 10)
     xs <- data.frame(
-        x = x * 10, y = ymax + adjust_y * label_pos_x[1], labels = x + 1,
-        cex = 0.7, font = 1
+        x = rep(x * 10, 2),
+        y = c(
+            ymax + adjust_y * label_pos_x[1], ymin - adjust_y * label_pos_x[1]
+        ),
+        labels = rep(x + 1, 2), cex = 0.7, font = 1
     )
     # X-axis label (large).
     x <- (xmin / 20 + 1):(xmax / 20)
@@ -151,8 +154,11 @@ draw_labels <- function(
     # Y-axis label (small).
     y <- (ymin / 10):(ymax / 10)
     ys <- data.frame(
-        x = xmin - adjust_x * label_pos_y[1], y = y * 10,
-        labels = ((200 - ymin) / 10 + 1):((200 - ymax) / 10 + 1),
+        x = c(
+            xmin - adjust_x * label_pos_y[1], xmax + adjust_x * label_pos_y[1]
+        ),
+        y = rep(y * 10, 2),
+        labels = rep(((200 - ymin) / 10 + 1):((200 - ymax) / 10 + 1), 2),
         cex = 0.7, font = 1
     )
     # Y-axis label (large).
