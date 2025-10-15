@@ -152,7 +152,8 @@ draw_labels <- function(
     y <- (ymin / 10):(ymax / 10)
     ys <- data.frame(
         x = xmin - adjust_x * label_pos_y[1], y = y * 10,
-        labels = ymax / 10 - y + 1, cex = 0.7, font = 1
+        labels = ((200 - ymin) / 10 + 1):((200 - ymax) / 10 + 1),
+        cex = 0.7, font = 1
     )
     # Y-axis label (large).
     y <- (ymin / 20 + 1):(ymax / 20)
