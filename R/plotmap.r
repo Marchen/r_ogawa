@@ -317,18 +317,20 @@ create_quadrat_map <- function(
 
 
 #------------------------------------------------------------------------------
-#'   Add contour
+#' Add contour
+#'
+#' @param ... parameters passed to \code{\link{contour}}.
 #'
 #' @export
 #------------------------------------------------------------------------------
-add_contour <- function() {
+add_contour <- function(...) {
     elevation <- read.csv(
         system.file("elevation.csv", package = "ogawa"), header = FALSE
     )
     elevation <- t(as.matrix(elevation))[, nrow(elevation):1]
     contour(
         z = elevation, x = seq(0, 300, by = 10), y = seq(0, 200, by = 10),
-        add = TRUE, nlevels = 30, lwd = 0.5
+        add = TRUE, nlevels = 30, lwd = 0.5, ...
     )
 }
 
