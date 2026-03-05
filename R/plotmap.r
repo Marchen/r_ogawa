@@ -302,7 +302,7 @@ create_quadrat_map <- function(
     type <- match.arg(type)
     x <- create_ogawa_plot()
     if (contour) {
-        draw_contour()
+        add_contour()
     }
     on.exit(add_grid(x, adds_sq_legend, draws_1_2ha))
     if (missing(Q)) {
@@ -321,7 +321,7 @@ create_quadrat_map <- function(
 #'
 #' @export
 #------------------------------------------------------------------------------
-draw_contour <- function() {
+add_contour <- function() {
     elevation <- read.csv(
         system.file("elevation.csv", package = "ogawa"), header = FALSE
     )
@@ -330,6 +330,12 @@ draw_contour <- function() {
         z = elevation, x = seq(0, 300, by = 10), y = seq(0, 200, by = 10),
         add = TRUE, nlevels = 30, lwd = 0.5
     )
+}
+
+#' @export
+draw_contour <- function(...) {
+    warning("draw_contour() is deprecated. Please use add_contour() instead.")
+    add_contour(...)
 }
 
 
@@ -357,7 +363,7 @@ create_point_map <- function(
 ) {
     p <- create_ogawa_plot()
     if (contour) {
-        draw_contour()
+        add_contour()
     }
     on.exit(add_grid(p, adds_sq_legend, draws_1_2ha))
     if (missing(x) | missing(y)) {
