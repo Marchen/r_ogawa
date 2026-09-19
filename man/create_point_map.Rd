@@ -11,6 +11,8 @@ create_point_map(
   draws_1_2ha = TRUE,
   contour = FALSE,
   col = rgb(1, 0, 0, 0.5),
+  xlim = c(0, 300),
+  ylim = c(0, 200),
   ...
 )
 }
@@ -25,7 +27,11 @@ create_point_map(
 
 \item{contour}{if TRUE, draw contour.}
 
-\item{col}{fill color(s).}
+\item{col}{point color(s).}
+
+\item{xlim}{range of x.}
+
+\item{ylim}{range of y.}
 
 \item{...}{graphic parameters passed to \code{\link[graphics]{rect}} to draw
 quadrats.}

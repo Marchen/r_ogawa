@@ -12,6 +12,8 @@ create_quadrat_map(
   col = rgb(1, 0, 0, 0.5),
   type = c("rect", "point"),
   jitter = FALSE,
+  xlim = c(0, 300),
+  ylim = c(0, 200),
   ...
 )
 }
@@ -32,6 +34,10 @@ If "point", draws points for each quadrat.}
 
 \item{jitter}{if TRUE, add jitter for coordinates of overlapping points.
 Ignored when type is "rect".}
+
+\item{xlim}{range of x.}
+
+\item{ylim}{range of y.}
 
 \item{...}{graphic parameters passed to \code{\link[graphics]{rect}} to draw
 quadrats.}
