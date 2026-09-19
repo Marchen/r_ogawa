@@ -194,6 +194,8 @@ draw_1_2ha <- function(xmin, xmax, ymin, ymax, ...) {
 #   Draw sub-quadrat region.
 #------------------------------------------------------------------------------
 draw_sq_legend <- function(xmin, xmax, ymin, ymax, ...) {
+    ymax <- ymax %/% 20 * 20
+    xmin <- xmin %/% 20 * 20 + ifelse(xmin %% 20 == 0, 0, 20)
     for (i in 1:4) {
         text(
             xmin + 5 + (i + 1) %% 2 * 10, ymax - 5 - ((i) %/% 3) * 10,
