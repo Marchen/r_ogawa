@@ -289,6 +289,8 @@ point_xy <- function(Q, xy, jitter, ...) {
 #' @param jitter
 #'     if TRUE, add jitter for coordinates of overlapping points.
 #'     Ignored when type is "rect".
+#' @param xlim range of x.
+#' @param ylim range of y.
 #' @param ...
 #'     graphic parameters passed to \code{\link[graphics]{rect}} to draw
 #'     quadrats.
@@ -297,10 +299,13 @@ point_xy <- function(Q, xy, jitter, ...) {
 #------------------------------------------------------------------------------
 create_quadrat_map <- function(
     Q, adds_sq_legend = TRUE, draws_1_2ha = TRUE, contour = FALSE,
-    col = rgb(1, 0, 0, 0.5), type = c("rect", "point"), jitter = FALSE, ...
+    col = rgb(1, 0, 0, 0.5), type = c("rect", "point"), jitter = FALSE,
+    xlim = c(0, 300), ylim = c(0, 200), ...
 ) {
     type <- match.arg(type)
-    x <- create_ogawa_plot()
+    x <- create_ogawa_plot(
+        xmin = xlim[1], xmax = xlim[2], ymin = ylim[1], ymax = ylim[2]
+    )
     if (contour) {
         add_contour()
     }
@@ -352,7 +357,9 @@ draw_contour <- function(...) {
 #'     if TRUE, draws the 1.2ha core plot region.
 #' @param contour
 #'     if TRUE, draw contour.
-#' @param col fill color(s).
+#' @param col point color(s).
+#' @param xlim range of x.
+#' @param ylim range of y.
 #' @param ...
 #'     graphic parameters passed to \code{\link[graphics]{rect}} to draw
 #'     quadrats.
@@ -361,9 +368,11 @@ draw_contour <- function(...) {
 #------------------------------------------------------------------------------
 create_point_map <- function(
     x, y, adds_sq_legend = TRUE, draws_1_2ha = TRUE, contour = FALSE,
-    col = rgb(1, 0, 0, 0.5), ...
+    col = rgb(1, 0, 0, 0.5), xlim = c(0, 300), ylim = c(0, 200), ...
 ) {
-    p <- create_ogawa_plot()
+    p <- create_ogawa_plot(
+        xmin = xlim[1], xmax = xlim[2], ymin = ylim[1], ymax = ylim[2]
+    )
     if (contour) {
         add_contour()
     }
