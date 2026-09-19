@@ -137,39 +137,46 @@ draw_labels <- function(
     adjust_x <- abs(xmax - xmin)
     adjust_y <- abs(ymax - ymin)
     # X-axis label (small).
-    x <- (xmin %/% 10):(xmax %/% 10)
+    x_index_s <- (xmin %/% 10):(xmax %/% 10)
     xs <- data.frame(
-        x = rep(x * 10, 2),
+        x = rep(x_index_s * 10, each = 2),
         y = c(
             ymax + adjust_y * label_pos_x[1], ymin - adjust_y * label_pos_x[1]
         ),
-        labels = rep(x + 1, 2), cex = 0.7, font = 1
+        labels = rep(x_index_s + 1, each = 2), cex = 0.7, font = 1
     )
     # X-axis label (large).
-    x <- (xmin %/% 20 + 1):(xmax %/% 20 + ifelse(xmax %% 20 >= 10, 1, 0))
+    x_index_l <- calculate_large_label_index(xmin, xmax)
     xl <- data.frame(
-        x = x * 20 - 10, y = ymax + adjust_y * label_pos_x[2],
-        labels = LETTERS[x], cex = 1.5, font = 2
+        x = x_index_l * 20 - 10, y = ymax + adjust_y * label_pos_x[2],
+        labels = LETTERS[x_index_l], cex = 1.5, font = 2
     )
     # Y-axis label (small).
-    y <- (ymin %/% 10):(ymax %/% 10)
+    y_index_s <- (ymin %/% 10):(ymax %/% 10)
     ys <- data.frame(
         x = c(
             xmin - adjust_x * label_pos_y[1], xmax + adjust_x * label_pos_y[1]
         ),
-        y = rep(y * 10, 2),
-        labels = rep(((200 - ymin) / 10 + 1):((200 - ymax) / 10 + 1), 2),
-        cex = 0.7, font = 1
+        y = rep(y_index_s * 10, each = 2),
+        labels = rep(21 - y_index_s, each = 2), cex = 0.7, font = 1
     )
     # Y-axis label (large).
-    y <- (ymin %/% 20 + 1):(ymax %/% 20 + ifelse(ymax %% 20 >= 10, 1, 0))
+    y_index_l <- calculate_large_label_index(ymin, ymax)
     yl <- data.frame(
-        x = xmin - adjust_x * label_pos_y[2],
-        y = ymax + 10 - 2 * y * 10 + ymin,
-        labels = ((200 - ymax) / 20 + 1):((200 - ymin) / 20), cex = 1.5,
-        font = 2
+        x = xmin - adjust_x * label_pos_y[2], y = (y_index_l) * 20 - 10,
+        labels = 11 - y_index_l, cex = 1.5, font = 2
     )
     do.call(text, rbind(xs, xl, ys, yl))
+}
+
+
+#------------------------------------------------------------------------------
+#   Calculate index for large labels.
+#------------------------------------------------------------------------------
+calculate_large_label_index <- function(min, max) {
+    range_min <- min %/% 20 + ifelse(min %% 20 > 10, 2, 1)
+    range_max <- max %/% 20 + ifelse(max %% 20 >= 10, 1, 0)
+    return(range_min:range_max)
 }
 
 
