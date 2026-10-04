@@ -70,6 +70,7 @@ create_object <- function(xmin, xmax, ymin, ymax, label_pos_x, label_pos_y) {
 #'     if TRUE, adds an legend for sub-quadrats.
 #' @param draws_1_2ha
 #'     if TRUE, draws the 1.2ha core plot region.
+#' @param draws_deer_fence if TRUE, draws the locations of deer fences.
 #' @param grid_level
 #'     an integer representing level of grid line to draw.
 #'     \code{0}: draw all grid lines, \code{1}: omit 5m grid lines,
@@ -83,9 +84,13 @@ create_object <- function(xmin, xmax, ymin, ymax, label_pos_x, label_pos_y) {
 #' @importFrom grDevices dev.flush
 #------------------------------------------------------------------------------
 add_grid <- function(
-    x, adds_sq_legend = TRUE, draws_1_2ha = TRUE, grid_level = 0
+    x, adds_sq_legend = TRUE, draws_1_2ha = TRUE, draws_deer_fence = TRUE,
+    grid_level = 0, fence_location = c("actual", "planned")
 ) {
+    # Error check.
     stopifnot(grid_level %in% 0:3)
+    fence_location <- match.arg(fence_location)
+    # Plotting.
     dev.hold()
     do.call(
         draw_grid, c(x, list(grid_level = grid_level))
@@ -93,6 +98,9 @@ add_grid <- function(
     do.call(draw_labels, x)
     if (draws_1_2ha) {
         do.call(draw_1_2ha, x)
+    }
+    if (draws_deer_fence) {
+        draw_deer_fences(actual = fence_location == "actual")
     }
     if (adds_sq_legend) {
         do.call(draw_sq_legend, x)
@@ -189,6 +197,35 @@ draw_1_2ha <- function(xmin, xmax, ymin, ymax, ...) {
     )
 }
 
+#------------------------------------------------------------------------------
+#   Draw deer fences.
+#------------------------------------------------------------------------------
+draw_deer_fences <- function(
+    actual = TRUE, enclosure = TRUE, control = FALSE, not_established = FALSE,
+    lwd = 2, lty = "solid", ...
+) {
+    for (i in read_deer_fence_info()) {
+        if (enclosure & i$type == "control") {
+            next
+        }
+        if (control & i$type == "enclosure") {
+            next
+        }
+        if (!actual) {
+            i$xshift <- i$yshift <- 0
+        }
+        rect(
+            i$xmin + i$xshift, i$ymin + i$yshift,
+            i$xmax + i$xshift, i$ymax + i$yshift, lwd = lwd, lty = lty, ...
+        )
+    }
+}
+
+
+read_deer_fence_info <- function() {
+    x <- read.csv(system.file("deer_fences.csv", package = "ogawa"))
+    return(split(x, x$name))
+}
 
 #------------------------------------------------------------------------------
 #   Draw sub-quadrat region.
