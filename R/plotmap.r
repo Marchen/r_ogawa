@@ -192,6 +192,10 @@ calculate_large_label_index <- function(min, max) {
 #   Draw 1.2ha region.
 #------------------------------------------------------------------------------
 draw_1_2ha <- function(xmin, xmax, ymin, ymax, ...) {
+    # If the plot area does not contain the 1.2 ha plot, do nothing.
+    if (xmax <= 120 | ymax <= 60 | xmin >= 220 | ymin >= 180) {
+        return()
+    }
     rect(
         max(xmin, 120), max(ymin, 60), min(xmax, 220), min(ymax, 180), lwd = 5
     )
