@@ -4,7 +4,14 @@
 \alias{add_grid}
 \title{Add grid lines for the plot}
 \usage{
-add_grid(x, adds_sq_legend = TRUE, draws_1_2ha = TRUE, grid_level = 0)
+add_grid(
+  x,
+  adds_sq_legend = TRUE,
+  draws_1_2ha = TRUE,
+  draws_deer_fence = TRUE,
+  grid_level = 0,
+  fence_location = c("actual", "planned")
+)
 }
 \arguments{
 \item{x}{an \code{ogawa.plot} object.}
@@ -12,6 +19,8 @@ add_grid(x, adds_sq_legend = TRUE, draws_1_2ha = TRUE, grid_level = 0)
 \item{adds_sq_legend}{if TRUE, adds an legend for sub-quadrats.}
 
 \item{draws_1_2ha}{if TRUE, draws the 1.2ha core plot region.}
+
+\item{draws_deer_fence}{if TRUE, draws the locations of deer fences.}
 
 \item{grid_level}{an integer representing level of grid line to draw.
 \code{0}: draw all grid lines, \code{1}: omit 5m grid lines,
